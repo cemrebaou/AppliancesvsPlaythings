@@ -21,6 +21,7 @@ import { Ses } from '../core/Audio.js';
 const CIHAZ_TABAN_OLCEK = 0.78;
 const DUSMAN_TABAN_OLCEK = 0.80;
 const MERMI_TABAN_OLCEK = 1.0;
+const MERMI_Y_OFSET = 44;   // merminin zeminden yüksekliği (gövde hizası)
 
 export class FieldSystem {
   /**
@@ -194,7 +195,7 @@ export class FieldSystem {
     m.delici = m.kalanDelme > 1;
     if (m.delici) m.vurulanlar.clear();
     const p = this.grid.seritNokta(row, u);
-    m.sprite.setPosition(p.x, p.y - 26 * this.grid.olcek(row));
+    m.sprite.setPosition(p.x, p.y - MERMI_Y_OFSET * this.grid.olcek(row));
     this.seritler[row].mermiler.push(m);
   }
 
@@ -318,7 +319,7 @@ export class FieldSystem {
 
       const p = grid.seritNokta(r, m.u);
       m.sprite.x = p.x;
-      m.sprite.y = p.y - 26 * grid.olcek(r);
+      m.sprite.y = p.y - MERMI_Y_OFSET * grid.olcek(r);
 
       // çarpışma: sadece bu şeritteki düşmanlar
       for (let j = dusmanlar.length - 1; j >= 0; j--) {

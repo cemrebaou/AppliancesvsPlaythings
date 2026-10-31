@@ -63,18 +63,18 @@ export class SelectScene extends Phaser.Scene {
       stroke: '#2b1a10', strokeThickness: 3
     }).setOrigin(0.5);
 
-    this.sayacYazi = this.add.text(W / 2 - 220, H - 46, '', {
+    this.sayacYazi = this.add.text(W / 2 - 330, H - 46, '', {
       fontFamily: 'Verdana, Arial, sans-serif', fontSize: '20px', color: '#ffffff',
       stroke: '#2b1a10', strokeThickness: 4
     }).setOrigin(0.5);
 
-    this.basla = this._dugme(W / 2 + 90, H - 46, 'BAŞLA', () => {
+    this.basla = this._dugme(W / 2 + 110, H - 46, 'BAŞLA', () => {
       if (this.secilenler.length !== SEEDBAR.slots) { Ses.hata(); return; }
       Ses.tik();
       Save.yaz({ secilenler: this.secilenler.slice() });
       this.scene.start(SCENE.game, { secilenler: this.secilenler.slice() });
     });
-    this._dugme(W / 2 - 90, H - 46, 'GERİ', () => { Ses.tik(); this.scene.start(SCENE.menu); }, 160);
+    this._dugme(W / 2 - 160, H - 46, 'GERİ', () => { Ses.tik(); this.scene.start(SCENE.menu); }, 160);
 
     this._sayacGuncelle();
   }

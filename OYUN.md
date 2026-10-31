@@ -1,6 +1,6 @@
 # OYUN.md — Appliances vs Playthings denge notları
 
-Sürüm: **v0.10**
+Sürüm: **v0.11**
 Bu dosya oyunun tüm sayılarını tutar. Kod tarafında karşılığı `src/config/` klasörüdür.
 
 ---
@@ -82,6 +82,11 @@ Isırık aralığı: **500 ms**.
 ---
 
 ## Sürüm geçmişi
+
+### v0.11
+- Seçim ekranında GERİ / BAŞLA düğmelerinin çakışması giderildi
+- Mermiler zemin yerine gövde hizasından gidiyor
+- Alınamayan kartlar daha okunur (soluklaştırma azaltıldı)
 
 ### v0.10 — ilk sürüm
 - 6×10 perspektif saha, arka plandaki çizili karolarla birebir hizalı

@@ -84,7 +84,7 @@ export class SeedBar {
       const ok = enerji >= k.v.fiyat;
       if (ok !== k.alinabilir) {
         k.alinabilir = ok;
-        k.ikon.setAlpha(ok ? 1 : 0.4);
+        k.ikon.setAlpha(ok ? 1 : 0.55);
         k.fiyat.setColor(ok ? '#ffffff' : '#ff8d8d');
       }
     }
