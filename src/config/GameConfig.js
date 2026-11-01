@@ -3,7 +3,7 @@
  * Oyunun tüm global sabitleri. Denge ayarı yapmak isteyen sadece bu dosyaya bakar.
  */
 
-export const SURUM = 'v0.11';
+export const SURUM = 'v0.12';
 
 /** Tasarım çözünürlüğü (Scale.FIT ile her ekrana oturur). */
 export const DESIGN = { width: 1280, height: 720 };
@@ -17,13 +17,16 @@ export const GRID = {
    * Grid.js bu 4 noktadan homografi matrisini kendisi çözer.
    */
   corners: {
-    tl: { x: 295.7, y: 256.4 },
-    tr: { x: 1024.6, y: 254.4 },
-    bl: { x: 72.1, y: 666.9 },
-    br: { x: 1085.7, y: 671.9 }
+    tl: { x: 285.0, y: 261.0 },
+    tr: { x: 1002.0, y: 259.0 },
+    bl: { x: 103.0, y: 663.0 },
+    br: { x: 1172.0, y: 666.0 }
   },
-  /** Karonun içinde cihazın ayaklarının oturduğu dikey oran (0 = üst kenar, 1 = alt kenar). */
-  footV: 0.86
+  /**
+   * Karonun içinde nesnenin oturduğu dikey oran (0 = üst kenar, 1 = alt kenar).
+   * Hem cihazlar hem düşmanlar bu çizgiye basar; 0.70 karoda görsel olarak ortalar.
+   */
+  footV: 0.70
 };
 
 /** Üstteki tohum/kart barı — arka plandaki çizili yuvalarla hizalı. */

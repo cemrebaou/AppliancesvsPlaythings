@@ -10,7 +10,7 @@ const ATIS_KARE_MS = 170;
 export class Appliance {
   constructor(scene) {
     this.sprite = scene.add.sprite(0, 0, K.atlas, 'toaster_0')
-      .setOrigin(0.5, 0.92)
+      .setOrigin(0.5, 0.76)
       .setActive(false)
       .setVisible(false);
     this.canli = false;

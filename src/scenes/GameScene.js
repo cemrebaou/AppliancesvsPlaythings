@@ -32,7 +32,7 @@ export class GameScene extends Phaser.Scene {
 
     this.vurgu = this.add.graphics().setDepth(DEPTH.field - 1);
     this.hayalet = this.add.image(0, 0, K.atlas, 'toaster_0')
-      .setOrigin(0.5, 0.92).setAlpha(0.55).setDepth(DEPTH.fx).setVisible(false);
+      .setOrigin(0.5, 0.76).setAlpha(0.55).setDepth(DEPTH.fx).setVisible(false);
 
     this.skor = 0;
     this.can = BASLANGIC_CAN;

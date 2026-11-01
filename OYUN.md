@@ -1,6 +1,6 @@
 # OYUN.md — Appliances vs Playthings denge notları
 
-Sürüm: **v0.11**
+Sürüm: **v0.12**
 Bu dosya oyunun tüm sayılarını tutar. Kod tarafında karşılığı `src/config/` klasörüdür.
 
 ---
@@ -82,6 +82,13 @@ Isırık aralığı: **500 ms**.
 ---
 
 ## Sürüm geçmişi
+
+### v0.12
+- **Izgara hizası düzeltildi**: arka plandaki karoların gerçek köşeleri ölçülerek
+  homografi yeniden kuruldu (sağ alt köşe 1085 → 1172, sol alt 72 → 103).
+  Artık cihazlar karonun tam ortasına oturuyor, düşmanlar karoları ortalayarak yürüyor.
+- Karo içi oturma oranı `footV` 0.86 → 0.70
+- Cihaz origin 0.92 → 0.76, düşman origin 0.94 → 0.90
 
 ### v0.11
 - Seçim ekranında GERİ / BAŞLA düğmelerinin çakışması giderildi

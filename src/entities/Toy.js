@@ -8,7 +8,7 @@ import { K, animYuru } from '../core/Keys.js';
 export class Toy {
   constructor(scene) {
     this.sprite = scene.add.sprite(0, 0, K.atlas, 'bear_0')
-      .setOrigin(0.5, 0.94)
+      .setOrigin(0.5, 0.90)
       .setFlipX(true)          // sprite'lar sağa bakıyor, biz sola yürütüyoruz
       .setActive(false)
       .setVisible(false);
