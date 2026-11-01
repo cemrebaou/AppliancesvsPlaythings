@@ -100,12 +100,29 @@ export class FieldSystem {
     if (!this.yerlesebilir(veri, row, col)) return null;
     // Yükseltme: alttaki aleti kaldırıp yerine kurulur
     if (veri.ustune) this._cihazYikil(this.seritler[row].cihazlar[col]);
-    const p = this.grid.hucreMerkez(row, col);
-    const olcek = this.grid.olcek(row) * CIHAZ_TABAN_OLCEK;
-    const a = this.cihazHavuz.al().kur(veri, row, col, p.x, p.y, olcek);
+    const y = this.cihazYerlesim(veri, row, col);
+    const a = this.cihazHavuz.al().kur(veri, row, col, y.x, y.y, y.olcek);
     a.u = this.grid.sutunU(col);
     this.seritler[row].cihazlar[col] = a;
     return a;
+  }
+
+  /**
+   * Aleti karonun İÇİNE sığdırır: tabanı karonun alt kenarının biraz üstünde,
+   * genişliği karonun %80'i, boyu karonun %88'i (Büyük Buzdolabı 1.5 kat uzun).
+   * Döner: { x, y, olcek } — sprite origin (0.5, 1) ile kullanılır.
+   */
+  cihazYerlesim(veri, row, col) {
+    const g = this.grid;
+    const k = g.hucreKoseleri(row, col);
+    const genis = ((k[2] - k[0]) + (k[4] - k[6])) / 2;
+    const yuksek = ((k[7] - k[1]) + (k[5] - k[3])) / 2;
+    const kare = this.scene.textures.getFrame(K.atlas, veri.id + '_0');
+    const fw = kare ? kare.width : 100, fh = kare ? kare.height : 100;
+    const boyPay = veri.uzun ? 1.5 : 0.88;
+    const olcek = Math.min(genis * 0.80 / fw, yuksek * boyPay / fh);
+    const p = g.nokta((col + 0.5) / g.cols, (row + 0.92) / g.rows);
+    return { x: p.x, y: p.y, olcek };
   }
 
   // Silindir başlatır: şeridin en gerisinden (u=0) sağa doğru ilerler
@@ -893,7 +910,7 @@ export class FieldSystem {
     if (d.canli && d.can > 0) a.ezU = d.u;
     a.ezT += dt;
     const o = Math.min(1, a.ezT / 550);
-    const bas = this.grid.seritNokta(r, a.u), son = this.grid.seritNokta(r, a.ezU);
+    const bas = { x: a.x0, y: a.y0 }, son = this.grid.seritNokta(r, a.ezU);
     a.sprite.x = bas.x + (son.x - bas.x) * o;
     a.sprite.y = bas.y + (son.y - bas.y) * o - Math.sin(o * Math.PI) * 90 * this.grid.olcek(r);
     a.sprite.setDepth(DEPTH.field + bas.y + 40);

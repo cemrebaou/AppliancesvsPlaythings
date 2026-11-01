@@ -1,6 +1,6 @@
 # OYUN.md — Appliances vs Playthings denge notları
 
-Sürüm: **v0.16**  — tüm değerler Plants vs Zombies karşılıklarına göre
+Sürüm: **v0.17**  — tüm değerler Plants vs Zombies karşılıklarına göre
 Bu dosya oyunun tüm sayılarını tutar. Kod tarafında karşılığı `src/config/` klasörüdür.
 
 ---
@@ -169,3 +169,7 @@ Isırık aralığı: **500 ms** (50 hasar = PvZ'deki saniyede 100). Normal hız 
 ### v0.16
 - "Telefonu yatay çevir" uyarısı kaldırıldı
 - Menüye TAM EKRAN tuşu eklendi: basınca tam ekran olur ve ekran yataya kilitlenir (Android/Chrome). Tekrar basınca çıkar
+
+### v0.17
+- Aletler artık karonun içine oturuyor: karonun %80 genişliğine / %88 boyuna sığdırılır, tabanı karonun alt kenarının hemen üstünde (çizgi üstünde durmuyor). Büyük Buzdolabı 1.5 kat uzun
+- Üst kart barı arka plandaki cam yuvalara göre yeniden ölçüldü (başlangıç 340, aralık 86) — kartlar sağa kaydı, ikonlar küçüldü ve yuvaya sığıyor

@@ -3,7 +3,7 @@
  * Oyunun tüm global sabitleri. Denge ayarı yapmak isteyen sadece bu dosyaya bakar.
  */
 
-export const SURUM = 'v0.16';
+export const SURUM = 'v0.17';
 
 /** Tasarım çözünürlüğü (Scale.FIT ile her ekrana oturur). */
 export const DESIGN = { width: 1280, height: 720 };
@@ -32,11 +32,11 @@ export const GRID = {
 /** Üstteki tohum/kart barı — arka plandaki çizili yuvalarla hizalı. */
 export const SEEDBAR = {
   slots: 9,
-  startX: 327.9,
-  stepX: 84.5,
-  y: 60,
-  w: 78,
-  h: 96
+  startX: 340.3,   // arka plandaki cam yuvaların ölçülmüş merkezleri (v0.17)
+  stepX: 85.96,
+  y: 61.5,
+  w: 68,
+  h: 88
 };
 
 /** Sol üstteki enerji göstergesi (arka plandaki şimşek rozeti + bar). */

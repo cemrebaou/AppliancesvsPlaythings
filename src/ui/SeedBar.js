@@ -31,14 +31,14 @@ export class SeedBar {
         .setDepth(DEPTH.ui).setScrollFactor(0)
         .setInteractive({ useHandCursor: true });
 
-      const ikon = scene.add.image(x, y - 6, K.atlas, v.id + '_0')
+      const ikon = scene.add.image(x, y - 9, K.atlas, v.id + '_0')
         .setDepth(DEPTH.ui + 1).setScrollFactor(0);
-      // yuvaya sığdır
-      const sk = Math.min((SEEDBAR.w - 10) / ikon.width, (SEEDBAR.h - 28) / ikon.height);
+      // yuvanın camına sığdır (fiyat yazısına yer bırak)
+      const sk = Math.min((SEEDBAR.w - 14) / ikon.width, (SEEDBAR.h - 36) / ikon.height);
       ikon.setScale(sk);
 
-      const fiyat = scene.add.text(x, y + SEEDBAR.h / 2 - 12, String(v.fiyat), {
-        fontFamily: 'Verdana, Arial, sans-serif', fontSize: '15px',
+      const fiyat = scene.add.text(x, y + SEEDBAR.h / 2 - 11, String(v.fiyat), {
+        fontFamily: 'Verdana, Arial, sans-serif', fontSize: '14px',
         color: '#ffffff', stroke: '#2b1a10', strokeThickness: 4
       }).setOrigin(0.5).setDepth(DEPTH.ui + 3).setScrollFactor(0);
 

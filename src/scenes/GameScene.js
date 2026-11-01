@@ -32,7 +32,7 @@ export class GameScene extends Phaser.Scene {
 
     this.vurgu = this.add.graphics().setDepth(DEPTH.field - 1);
     this.hayalet = this.add.image(0, 0, K.atlas, 'toaster_0')
-      .setOrigin(0.5, 0.76).setAlpha(0.55).setDepth(DEPTH.fx).setVisible(false);
+      .setOrigin(0.5, 1).setAlpha(0.55).setDepth(DEPTH.fx).setVisible(false);
 
     this.skor = 0;
     this.can = BASLANGIC_CAN;
@@ -149,15 +149,13 @@ export class GameScene extends Phaser.Scene {
       // Silindir: en geride (sol uç) görünür
       if (this.secimVeri.rol === 'silindir') {
         const p = this.grid.seritNokta(h.row, 0.0);
-        this.hayalet.setFrame('iron_1')
+        this.hayalet.setFrame('iron_1').setOrigin(0.5, 0.76)
           .setPosition(p.x, p.y)
           .setScale(this.grid.olcek(h.row) * 1.2)
           .setVisible(true);
       } else if (uygun) {
-        const c = this.grid.hucreMerkez(h.row, h.col);
-        this.hayalet.setPosition(c.x, c.y)
-          .setScale(this.grid.olcek(h.row) * 0.78 * (this.secimVeri.olcek || 1))
-          .setVisible(true);
+        const y = this.saha.cihazYerlesim(this.secimVeri, h.row, h.col);
+        this.hayalet.setOrigin(0.5, 1).setPosition(y.x, y.y).setScale(y.olcek).setVisible(true);
       } else {
         this.hayalet.setVisible(false);
       }

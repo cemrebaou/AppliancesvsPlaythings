@@ -10,7 +10,7 @@ const ATIS_KARE_MS = 170;
 export class Appliance {
   constructor(scene) {
     this.sprite = scene.add.sprite(0, 0, K.atlas, 'toaster_0')
-      .setOrigin(0.5, 0.76)
+      .setOrigin(0.5, 1)
       .setActive(false)
       .setVisible(false);
     this.canli = false;
@@ -42,7 +42,8 @@ export class Appliance {
     const s = this.sprite;
     s.setFrame(veri.id + '_0');
     s.setPosition(x, y);
-    this.temelOlcek = olcek * (veri.olcek || 1);
+    this.x0 = x; this.y0 = y;
+    this.temelOlcek = olcek;
     s.setScale(this.temelOlcek);
     s.setDepth(DEPTH.field + y);
     s.clearTint();
