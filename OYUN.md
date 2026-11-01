@@ -1,6 +1,6 @@
 # OYUN.md — Appliances vs Playthings denge notları
 
-Sürüm: **v0.17**  — tüm değerler Plants vs Zombies karşılıklarına göre
+Sürüm: **v0.18**  — tüm değerler Plants vs Zombies karşılıklarına göre
 Bu dosya oyunun tüm sayılarını tutar. Kod tarafında karşılığı `src/config/` klasörüdür.
 
 ---
@@ -173,3 +173,7 @@ Isırık aralığı: **500 ms** (50 hasar = PvZ'deki saniyede 100). Normal hız 
 ### v0.17
 - Aletler artık karonun içine oturuyor: karonun %80 genişliğine / %88 boyuna sığdırılır, tabanı karonun alt kenarının hemen üstünde (çizgi üstünde durmuyor). Büyük Buzdolabı 1.5 kat uzun
 - Üst kart barı arka plandaki cam yuvalara göre yeniden ölçüldü (başlangıç 340, aralık 86) — kartlar sağa kaydı, ikonlar küçüldü ve yuvaya sığıyor
+
+### v0.18
+- Arka plandaki 60 karo tek tek ölçüldü (çizim tam perspektif değil, arka sıralarda kayma vardı). Aletler artık ölçülmüş karonun tam ortasına oturuyor (genişliğin %85'i, boyun %95'i)
+- Dokunma ve yeşil/kırmızı karo vurgusu da ölçülmüş karolara göre

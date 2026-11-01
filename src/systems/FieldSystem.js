@@ -108,21 +108,22 @@ export class FieldSystem {
   }
 
   /**
-   * Aleti karonun İÇİNE sığdırır: tabanı karonun alt kenarının biraz üstünde,
-   * genişliği karonun %80'i, boyu karonun %88'i (Büyük Buzdolabı 1.5 kat uzun).
+   * Aleti arka plandaki ölçülmüş karonun tam ortasına sığdırır
+   * (genişliğin %85'i, boyun %95'i; Büyük Buzdolabı 1.5 kat uzun).
    * Döner: { x, y, olcek } — sprite origin (0.5, 1) ile kullanılır.
    */
   cihazYerlesim(veri, row, col) {
-    const g = this.grid;
-    const k = g.hucreKoseleri(row, col);
-    const genis = ((k[2] - k[0]) + (k[4] - k[6])) / 2;
-    const yuksek = ((k[7] - k[1]) + (k[5] - k[3])) / 2;
+    const k = this.grid.karo(row, col);
     const kare = this.scene.textures.getFrame(K.atlas, veri.id + '_0');
     const fw = kare ? kare.width : 100, fh = kare ? kare.height : 100;
-    const boyPay = veri.uzun ? 1.5 : 0.88;
-    const olcek = Math.min(genis * 0.80 / fw, yuksek * boyPay / fh);
-    const p = g.nokta((col + 0.5) / g.cols, (row + 0.92) / g.rows);
-    return { x: p.x, y: p.y, olcek };
+    if (veri.uzun) {
+      // Büyük Buzdolabı: tabanı karoda, boyu 1.5 karo
+      const o = Math.min(k.w * 0.85 / fw, k.h * 1.5 / fh);
+      return { x: k.cx, y: k.alt - k.h * 0.06, olcek: o };
+    }
+    // Karonun tam ortasına: genişliğin %85'i, boyun %95'i içinde, dikeyde ortalı
+    const olcek = Math.min(k.w * 0.85 / fw, k.h * 0.95 / fh);
+    return { x: k.cx, y: k.cy + (fh * olcek) / 2, olcek };
   }
 
   // Silindir başlatır: şeridin en gerisinden (u=0) sağa doğru ilerler

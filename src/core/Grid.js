@@ -68,14 +68,20 @@ export class Grid {
     this.hucreX = new Float32Array(this.rows * this.cols);
     this.hucreY = new Float32Array(this.rows * this.cols);
 
+    // Ölçülmüş karolar: sütun merkez çizgisinin eğimi (dx/dy), ilk ve son satırdan
+    this.karoTablo = GRID.karolar;
+    const K0 = this.karoTablo[0], K5 = this.karoTablo[this.rows - 1];
+    const y0 = (K0.ust + K0.alt) / 2, y5 = (K5.ust + K5.alt) / 2;
+    this.sutunEgim = (sutun) => ((K5.x0 + sutun * K5.adim) - (K0.x0 + sutun * K0.adim)) / (y5 - y0);
+
     const refH = this._satirYuksekligi(this.rows - 1);
     for (let r = 0; r < this.rows; r++) {
       this.satirV[r] = (r + GRID.footV) / this.rows;
       this.satirOlcek[r] = this._satirYuksekligi(r) / refH;
       for (let c = 0; c < this.cols; c++) {
-        const p = this.nokta((c + 0.5) / this.cols, this.satirV[r]);
+        const kr = this.karo(r, c);
         const k = r * this.cols + c;
-        this.hucreX[k] = p.x; this.hucreY[k] = p.y;
+        this.hucreX[k] = kr.cx; this.hucreY[k] = kr.cy + kr.h * 0.2;
       }
     }
   }
@@ -100,11 +106,34 @@ export class Grid {
     return { u: (m[0] * x + m[1] * y + m[2]) / w, v: (m[3] * x + m[4] * y + m[5]) / w };
   }
 
-  /** ekran -> {row, col} ya da null */
+  /** Ölçülmüş karo: { cx, cy, ust, alt, w, h } */
+  karo(row, col) {
+    const t = this.karoTablo[row];
+    return {
+      cx: t.x0 + col * t.adim, cy: (t.ust + t.alt) / 2,
+      ust: t.ust, alt: t.alt, w: t.gen, h: t.alt - t.ust
+    };
+  }
+
+  /** ekran -> {row, col} ya da null (ölçülmüş karolara göre) */
   hucreBul(x, y) {
-    const { u, v } = this.ters(x, y);
-    if (u < 0 || u >= 1 || v < 0 || v >= 1) return null;
-    return { row: (v * this.rows) | 0, col: (u * this.cols) | 0 };
+    const T = this.karoTablo, n = this.rows;
+    let row = -1;
+    for (let r = 0; r < n; r++) {
+      const ust = r === 0 ? T[0].ust - 12 : (T[r - 1].alt + T[r].ust) / 2;
+      const alt = r === n - 1 ? T[r].alt + 12 : (T[r].alt + T[r + 1].ust) / 2;
+      if (y >= ust && y < alt) { row = r; break; }
+    }
+    if (row < 0) return null;
+    const t = T[row], cy = (t.ust + t.alt) / 2;
+    let col = -1, enIyi = 1e9;
+    for (let c = 0; c < this.cols; c++) {
+      const cx = t.x0 + c * t.adim + this.sutunEgim(c) * (y - cy);
+      const d = Math.abs(x - cx);
+      if (d < enIyi) { enIyi = d; col = c; }
+    }
+    if (enIyi > t.adim * 0.55) return null;
+    return { row, col };
   }
 
   /** hücre merkezi (ayak hizası) */
@@ -131,10 +160,14 @@ export class Grid {
 
   /** hücrenin 4 köşesi (seçim vurgusu çizmek için) */
   hucreKoseleri(row, col) {
-    const u0 = col / this.cols, u1 = (col + 1) / this.cols;
-    const v0 = row / this.rows, v1 = (row + 1) / this.rows;
-    const a = this.nokta(u0, v0), b = this.nokta(u1, v0);
-    const c = this.nokta(u1, v1), d = this.nokta(u0, v1);
-    return [a.x, a.y, b.x, b.y, c.x, c.y, d.x, d.y];
+    const k = this.karo(row, col), hw = k.w / 2;
+    const sL = this.sutunEgim(col - 0.5), sR = this.sutunEgim(col + 0.5);
+    const ut = k.ust - k.cy, al = k.alt - k.cy;
+    return [
+      k.cx - hw + sL * ut, k.ust,
+      k.cx + hw + sR * ut, k.ust,
+      k.cx + hw + sR * al, k.alt,
+      k.cx - hw + sL * al, k.alt
+    ];
   }
 }
