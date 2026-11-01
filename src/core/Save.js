@@ -5,7 +5,7 @@ const VARSAYILAN = {
   enYuksekDalga: 0,
   enYuksekSkor: 0,
   sesAcik: true,
-  secilenler: ['coffee', 'toaster', 'waffle', 'kettle', 'fan', 'hairdryer', 'blender', 'iron', 'popcorn']
+  secilenler: ['dynamo', 'toaster', 'minifridge', 'battery', 'outlet', 'blender', 'lamp', 'paninipress', 'iron']
 };
 
 let bellek = null;

@@ -33,12 +33,13 @@ export class WaveSystem {
     const kuyruk = [];
     let t = 0;
     for (const g of d.gruplar) {
+      if (g.basMs !== undefined) t = g.basMs;
       let yerel = t;
       for (let i = 0; i < g.adet; i++) {
         kuyruk.push({ t: yerel, toy: g.toy });
         yerel += g.araMs;
       }
-      t += 900;   // gruplar hafif kaydırılarak başlar
+      t += 4000;  // basMs verilmeyen grup öncekinden 4 sn sonra başlar
     }
     kuyruk.sort((a, b) => a.t - b.t);
     this.kuyruk = kuyruk;

@@ -5,9 +5,9 @@ import { APPLIANCES } from '../config/ApplianceData.js';
 import { Save } from '../core/Save.js';
 import { Ses } from '../core/Audio.js';
 
-const SUTUN = 10, SATIR = 3;
+const SUTUN = 10, SATIR = 4;
 
-/** SelectScene — 30 ev aletinden 9 tanesini seç. */
+/** SelectScene — 38 ev aletinden 9 tanesini seç (10x4). */
 export class SelectScene extends Phaser.Scene {
   constructor() { super(SCENE.select); }
 
@@ -25,21 +25,21 @@ export class SelectScene extends Phaser.Scene {
     const kayitli = Save.oku().secilenler || [];
 
     this.kartlar = [];
-    const kw = 122, kh = 128;
+    const kw = 122, kh = 110;
     const bx = W / 2 - (SUTUN * kw) / 2 + kw / 2;
-    const by = 128;
+    const by = 118;
 
     APPLIANCES.forEach((v, i) => {
       const cx = bx + (i % SUTUN) * kw;
       const cy = by + ((i / SUTUN) | 0) * kh;
 
       const g = this.add.graphics();
-      const ikon = this.add.image(cx, cy - 8, K.atlas, v.id + '_0');
-      const sk = Math.min(96 / ikon.width, 70 / ikon.height);
+      const ikon = this.add.image(cx, cy - 10, K.atlas, v.id + '_0');
+      const sk = Math.min(92 / ikon.width, 56 / ikon.height);
       ikon.setScale(sk);
 
-      const ad = this.add.text(cx, cy + 34, v.ad, {
-        fontFamily: 'Verdana, Arial, sans-serif', fontSize: '12px', color: '#ffffff',
+      const ad = this.add.text(cx, cy + 22, v.ad, {
+        fontFamily: 'Verdana, Arial, sans-serif', fontSize: '11px', color: '#ffffff',
         stroke: '#2b1a10', strokeThickness: 3, align: 'center', wordWrap: { width: kw - 16 }
       }).setOrigin(0.5, 0);
 
@@ -58,7 +58,7 @@ export class SelectScene extends Phaser.Scene {
       this._kartCiz(kart);
     });
 
-    this.aciklama = this.add.text(W / 2, H - 92, 'Bir karta dokunarak ekibine ekle.', {
+    this.aciklama = this.add.text(W / 2, H - 98, 'Bir karta dokunarak ekibine ekle.', {
       fontFamily: 'Verdana, Arial, sans-serif', fontSize: '16px', color: '#e6d7b8',
       stroke: '#2b1a10', strokeThickness: 3
     }).setOrigin(0.5);
@@ -85,7 +85,7 @@ export class SelectScene extends Phaser.Scene {
     else if (this.secilenler.length < SEEDBAR.slots) { this._sec(i, true); Ses.yerlestir(); }
     else { Ses.hata(); }
     this._kartCiz(k);
-    this.aciklama.setText(k.v.ad + ' — ' + k.v.aciklama);
+    this.aciklama.setText(k.v.ad + (k.v.pvz ? ' (' + k.v.pvz + ')' : '') + ' — ' + k.v.aciklama);
     this._sayacGuncelle();
   }
 

@@ -19,10 +19,18 @@ export class Appliance {
   kur(veri, row, col, x, y, olcek) {
     this.veri = veri;
     this.row = row; this.col = col;
-    this.can = veri.can;
-    this.maxCan = veri.can;
-    this.atisSayac = veri.atisMs * 0.4;
-    this.uretimSayac = veri.uretimMs || 0;
+    this.can = veri.can || 300;
+    this.maxCan = this.can;
+    this.atisSayac = (veri.atisMs || 0) * 0.4;
+    this.uretimSayac = veri.ilkUretimMs || veri.uretimMs || 0;
+    this.seriKalan = 0;
+    this.seriSayac = 0;
+    this.fitil = veri.fitilMs || 0;
+    this.hazirKalan = veri.hazirMs || 0;
+    this.hazir = !veri.hazirMs;
+    this.ezHedef = null;
+    this.ezT = 0;
+    this.bekleKare = veri.id + '_0';
     this.atisKare = 0;
     this.durum = 'bekle';     // yutucu: bekle | ceker | cigniyor
     this.hedef = null;
@@ -38,7 +46,8 @@ export class Appliance {
     s.setScale(this.temelOlcek);
     s.setDepth(DEPTH.field + y);
     s.clearTint();
-    s.setAlpha(1);
+    s.setAlpha(veri.hazirMs ? 0.75 : 1);
+    s.setRotation(0);
     s.setActive(true).setVisible(true);
     return this;
   }
@@ -62,7 +71,7 @@ export class Appliance {
   guncelle(dt) {
     if (this.atisKare > 0) {
       this.atisKare -= dt;
-      if (this.atisKare <= 0) this.sprite.setFrame(this.veri.id + '_0');
+      if (this.atisKare <= 0) this.sprite.setFrame(this.bekleKare);
     }
   }
 

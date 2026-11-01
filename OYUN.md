@@ -1,6 +1,6 @@
 # OYUN.md — Appliances vs Playthings denge notları
 
-Sürüm: **v0.14**
+Sürüm: **v0.15**  — tüm değerler Plants vs Zombies karşılıklarına göre
 Bu dosya oyunun tüm sayılarını tutar. Kod tarafında karşılığı `src/config/` klasörüdür.
 
 ---
@@ -19,7 +19,7 @@ Bu dosya oyunun tüm sayılarını tutar. Kod tarafında karşılığı `src/con
 
 | Değer | |
 |---|---|
-| Başlangıç enerjisi | 150 |
+| Başlangıç enerjisi | 50 (PvZ gibi) |
 | Gökten düşen şimşek | 25 enerji, her 7–11 sn'de bir |
 | Şimşek yerde kalma | 9 sn (son 1.2 sn'de solar) |
 | Kürek iadesi | Maliyetin %50'si |
@@ -28,87 +28,96 @@ Bu dosya oyunun tüm sayılarını tutar. Kod tarafında karşılığı `src/con
 
 | Değer | |
 |---|---|
-| İlk dalgaya kadar hazırlık | 12 sn |
-| Dalgalar arası | 18 sn (ÇAĞIR ile erkene alınabilir) |
+| İlk dalgaya kadar hazırlık | 20 sn |
+| Dalgalar arası | 15 sn (ÇAĞIR ile erkene alınabilir) |
+| Tempo | İlk dalgalar tek tek ve seyrek (Dalga 1 = 1 Bebek). 10. ve 15. dalga büyük dalga |
 | Toplam elle yazılmış dalga | 15 |
-| 15'ten sonra | Sonsuz mod — her turda düşman canı ×(1 + 0.18·n) |
+| 15'ten sonra | Sonsuz mod — her turda düşman canı ×(1 + 0.15·n), her 5. tur büyük |
 | Bonus enerji | Dalga 5 → +50, Dalga 9 → +75, Dalga 13 → +100 |
 
 ---
 
-## Ev aletleri (savunma) — 30 adet
+## Ev aletleri (savunma) — 38 adet
 
-| # | id | Ad | Fiyat | Bekleme | Can | Hasar | Atış | Özellik |
-|---|---|---|---|---|---|---|---|---|
-| 1 | coffee | Kahve Makinesi | 50 | 7 sn | 300 | 8 | 3.2 sn | Enerji üretir (9 sn'de +25), yakına kahve atar |
-| 2 | toaster | Ekmek Kızartma | 100 | 5 sn | 300 | 20 | 1.45 sn | Temel atıcı |
-| 3 | waffle | Waffle Makinesi | 125 | 7.5 sn | 300 | 20 | 1.5 sn | Starfruit: 5 yöne yıldız (sağ, sol, sağ-yukarı, sağ-aşağı, sol-yukarı) |
-| 4 | kettle | Su Isıtıcısı | 150 | 7 sn | 300 | 14 | 1.5 sn | Yavaşlatır |
-| 5 | fan | Vantilatör | 100 | 7.5 sn | 280 | – | – | Blover (kalıcı): menzildekileri sürekli geri üfler |
-| 6 | hairdryer | Saç Kurutma | 175 | 8 sn | 300 | 16 | 1.6 sn | Geri iter |
-| 7 | blender | Blender | 175 | 7.5 sn | 300 | 20 | 1.45 sn | Snow Pea: mavi buz mermisi, yavaşlatır |
-| 8 | microwave | Mikrodalga | 250 | 11 sn | 340 | 48 | 1.4 sn | Kısa menzil, ağır hasar, 2 delme |
-| 9 | iron | Ütü | 125 | 50 sn | – | – | – | Silindir (Jalapeño): şeridin gerisinden geçip hepsini ezer, kule koymaz |
-| 10 | vacuum | Elektrikli Süpürge | 150 | 7.5 sn | 300 | – | – | Chomper: 2 kare ilerideki düşmanı çeker, yutar (%10 büyür), 42 sn sindirip öldürür |
-| 11 | washer | Çamaşır Makinesi | 150 | 7.5 sn | 400 | 45 | 1 sn | Yakın kapak vuruşu (Snapdragon) |
-| 12 | fryer | Fritöz | 175 | 7.5 sn | 300 | – | – | Ateş ağacı (Torchwood): geçen mermi sarı parlar, 2x hasar, buzu eritir |
-| 13 | sewing | Dikiş Makinesi | 175 | 8 sn | 300 | 8 | 0.42 sn | İlk vuruşta düşmanı 3 sn yere sabitler (düşman başına 1 kez) |
-| 14 | drill | Matkap | 300 | 14 sn | 320 | 34 | 1.5 sn | Tüm şeridi deler |
-| 15 | popcorn | Mısır Patlatma | 325 | 7.5 sn | 360 | 20 | 1.45 sn | Threepeater: 3 şeride atar |
-| 16 | ricecooker | Pirinç Pişirici | 100 | 7 sn | 300 | 15 | 1.5 sn | **Yer tutucu — özellik sonra verilecek** |
-| 17 | standmixer | Stand Mikser | 150 | 8 sn | 300 | 18 | 1.2 sn | **Yer tutucu — özellik sonra verilecek** |
-| 18 | airfryer | Hava Fritözü | 175 | 9 sn | 300 | 22 | 1.6 sn | **Yer tutucu — özellik sonra verilecek** |
-| 19 | dishwasher | Bulaşık Makinesi | 200 | 10 sn | 400 | 20 | 1.8 sn | **Yer tutucu — özellik sonra verilecek** |
-| 20 | spaceheater | Isıtıcı | 125 | 7 sn | 280 | 16 | 1.4 sn | **Yer tutucu — özellik sonra verilecek** |
-| 21 | humidifier | Nemlendirici | 100 | 6 sn | 260 | 12 | 1.3 sn | **Yer tutucu — özellik sonra verilecek** |
-| 22 | airpurifier | Hava Temizleyici | 150 | 7.5 sn | 300 | 14 | 1.1 sn | **Yer tutucu — özellik sonra verilecek** |
-| 23 | slowcooker | Yavaş Pişirici | 125 | 8 sn | 350 | 17 | 1.7 sn | **Yer tutucu — özellik sonra verilecek** |
-| 24 | canopener | Elektrikli Konserve Açacağı | 75 | 5 sn | 200 | 10 | 0.9 sn | **Yer tutucu — özellik sonra verilecek** |
-| 25 | foodprocessor | Mutfak Robotu | 200 | 9 sn | 320 | 24 | 1.3 sn | **Yer tutucu — özellik sonra verilecek** |
-| 26 | paninipress | Tost Makinesi | 125 | 7 sn | 280 | 18 | 1.5 sn | **Yer tutucu — özellik sonra verilecek** |
-| 27 | handmixer | El Mikseri | 100 | 6 sn | 240 | 13 | 0.8 sn | **Yer tutucu — özellik sonra verilecek** |
-| 28 | citrusjuicer | Meyve Sıkacağı | 75 | 5 sn | 200 | 11 | 1.2 sn | **Yer tutucu — özellik sonra verilecek** |
-| 29 | clothessteamer | Giysi Buharlayıcı | 125 | 7 sn | 260 | 15 | 1.4 sn | **Yer tutucu — özellik sonra verilecek** |
-| 30 | waterdispenser | Su Sebili | 100 | 6 sn | 280 | 8 | 2.5 sn | **Yer tutucu — özellik sonra verilecek** |
+| # | id | Ad | PvZ karşılığı | Fiyat | Bekleme | Can | Hasar | Atış | Özellik |
+|---|---|---|---|---|---|---|---|---|---|
+| 1 | dynamo | Kollu Dinamo | Ayçiçeği | 50 | 7.5 sn | 300 | – | – | Standart enerji üreteci. 24 sn'de bir 25 enerji. Saldırmaz. |
+| 2 | generator | Jeneratör | İkiz Ayçiçeği | 150 | 50 sn | 300 | – | – | Gelişmiş üreteç. Sadece Kollu Dinamo'nun üstüne kurulur, 2 kat enerji. |
+| 3 | coffee | Kahve Makinesi | Güneş Mantarı | 25 | 7.5 sn | 300 | – | – | Ucuz üreteç. 24 sn'de bir 15 enerji. Saldırmaz. |
+| 4 | toaster | Ekmek Kızartma | Bezelye Atıcı | 100 | 7.5 sn | 300 | 20 | 1.425 sn | Temel atıcı. Şeridi boyunca kızarmış ekmek fırlatır. |
+| 5 | lamp | Kollu Lamba | Tekrarlayıcı | 200 | 7.5 sn | 300 | 20 | 1.425 sn | Her seferinde 2 ışık topu atar. |
+| 6 | standmixer | Stand Mikser | Makineli Bezelye | 250 | 50 sn | 300 | 20 | 1.425 sn | Her seferinde 4 hamur topu atar. |
+| 7 | blender | Blender | Buz Bezelye | 175 | 7.5 sn | 300 | 20 | 1.425 sn | Buzlu meyve suyu. Vurduğu oyuncağı yavaşlatır. |
+| 8 | kettle | Su Isıtıcısı | Buz Bezelye (ucuz) | 150 | 7.5 sn | 300 | 15 | 1.425 sn | Kaynar buhar. Daha az hasar, değdiğini yavaşlatır. |
+| 9 | popcorn | Mısır Patlatma | Üçlü Atıcı | 325 | 7.5 sn | 300 | 20 | 1.425 sn | 3 şeride birden mısır patlatır. |
+| 10 | waffle | Waffle Makinesi | Yıldız Meyvesi | 125 | 7.5 sn | 300 | 20 | 1.425 sn | 5 yöne birden yıldız atar (sağ, sol, çaprazlar, yukarı). |
+| 11 | handmixer | El Mikseri | Bölünmüş Bezelye | 125 | 7.5 sn | 300 | 20 | 1.425 sn | Öne 1, arkaya 2 atış. Arkadan geçenleri de vurur. |
+| 12 | airfryer | Hava Fritözü | Kaktüs | 125 | 7.5 sn | 300 | 20 | 1.425 sn | Patates dikeni atar, 2 düşmanı birden deler. |
+| 13 | canopener | Konserve Açacağı | Korkak Mantar | 25 | 7.5 sn | 300 | 20 | 1.425 sn | Çok ucuz uzun menzilli atıcı. |
+| 14 | airpurifier | Hava Temizleyici | Puf Mantarı | 0 | 7.5 sn | 300 | 20 | 1.425 sn | Bedava. Sadece 3 kare ileriye atar. |
+| 15 | radio | Eski Radyo | Duman Mantarı | 75 | 7.5 sn | 300 | 20 | 1.425 sn | Ses dalgası 4 kare ilerideki herkesi deler geçer. |
+| 16 | washer | Çamaşır Makinesi | Ejder Çiçeği | 150 | 7.5 sn | 300 | 40 | 1 sn | Yakına gelene kapağı açıp vurur. Kısa menzil, ağır hasar. |
+| 17 | microwave | Mikrodalga | Duman Mantarı (ağır) | 250 | 11 sn | 300 | 48 | 1.425 sn | Kısa menzilli ışın. Yakına çok ağır hasar verir. |
+| 18 | drill | Matkap | Delici | 300 | 14 sn | 300 | 34 | 1.5 sn | Matkap ucu tüm şeridi delip geçer. |
+| 19 | sewing | Dikiş Makinesi | Dondurucu | 175 | 8 sn | 300 | 8 | 0.42 sn | İlk dikişte oyuncağı yere sabitler (3 sn). |
+| 20 | hairdryer | Saç Kurutma | İtici | 175 | 8 sn | 300 | 20 | 1.6 sn | Sıcak rüzgâr. Oyuncakları geriye doğru iter. |
+| 21 | dishwasher | Bulaşık Makinesi | Lahana Fırlatıcı | 100 | 7.5 sn | 300 | 40 | 2.9 sn | Kavisli tabak fırlatır, 40 hasar. |
+| 22 | ricecooker | Pirinç Pişirici | Mısır Fırlatıcı | 100 | 7.5 sn | 300 | 20 | 2.9 sn | Pirinç topu atar; bazen yapışkan top atıp 4 sn dondurur. |
+| 23 | foodprocessor | Mutfak Robotu | Kavun Fırlatıcı | 300 | 7.5 sn | 300 | 80 | 2.9 sn | Ağır karışım atar, 80 hasar + çevresine sıçrar. |
+| 24 | waterdispenser | Su Sebili | Kış Kavunu | 500 | 50 sn | 300 | 80 | 2.9 sn | Buz gibi su bombası. 80 hasar, çevresine sıçrar ve hepsini yavaşlatır. |
+| 25 | minifridge | Mini Buzdolabı | Ceviz | 50 | 30 sn | 4000 | – | – | Sağlam duvar. Oyuncakları uzun süre oyalar. |
+| 26 | refrigerator | Büyük Buzdolabı | Uzun Ceviz | 125 | 30 sn | 8000 | – | – | Çok sağlam, uzun duvar. Üstünden zıplanamaz. |
+| 27 | citrusjuicer | Meyve Sıkacağı | Sarımsak | 50 | 7.5 sn | 400 | – | – | Isıran oyuncak ekşiyip komşu şeride kaçar. |
+| 28 | battery | Akü | Kiraz Bombası | 150 | 50 sn | – | 1800 | – | Patlar! 3x3 alandaki her şeyi yok eder. |
+| 29 | slowcooker | Yavaş Pişirici | Kıyamet Mantarı | 125 | 50 sn | – | 1800 | – | Dev patlama. 5x5 alandaki her şeyi yok eder. |
+| 30 | outlet | Elektrik Prizi | Patates Mayını | 25 | 30 sn | 300 | 1800 | – | 15 sn'de kurulur, üstüne basanı çarpıp yok eder. |
+| 31 | paninipress | Tost Makinesi | Kabak | 50 | 30 sn | 300 | 1800 | – | Yakına gelen oyuncağın üstüne atlayıp ezer. |
+| 32 | humidifier | Nemlendirici | Buz Mantarı | 75 | 50 sn | – | 20 | – | Sahadaki tüm oyuncakları 4 sn dondurur. |
+| 33 | iron | Ütü | Jalapeño | 125 | 50 sn | – | – | – | Şeridin en gerisinden ezip geçer, hepsini tek seferde öldürür. |
+| 34 | vacuum | Elektrikli Süpürge | Yutucu | 150 | 7.5 sn | 300 | – | – | 2 kare ilerideki oyuncağı içine çeker, 42 sn sindirir. |
+| 35 | fryer | Fritöz | Meşale Ağacı | 175 | 7.5 sn | 300 | – | – | Üstünden geçen mermiler sarı parlar, 2 kat güçlenir. |
+| 36 | fan | Vantilatör | Üfleyici | 100 | 7.5 sn | 300 | – | – | Önündeki oyuncakları sürekli geri üfler. |
+| 37 | spaceheater | Isıtıcı | Diken Otu | 100 | 7.5 sn | 300 | 20 | 1 sn | Üstünden geçeni saniyede 20 yakar. Oyuncaklar onu yiyemez. |
+| 38 | clothessteamer | Giysi Buharlayıcı | Mıknatıs Mantarı | 100 | 7.5 sn | 300 | – | 15 sn | Yakındaki metal oyuncağın kask/kovasını söker (15 sn şarj). |
 
-Bekleme = kartın tekrar kullanılabilmesi için gereken süre. Fiyat/bekleme eşleşmeleri Plants vs Zombies'ten: Chomper 150$, Jalapeño 125$ (50 sn), Snow Pea 175$, Torchwood 175$, Starfruit 125$, Threepeater 325$, Blover 100$ (7.5 sn).
+Bekleme = kartın tekrar kullanılabilmesi için gereken süre. Fiyat/bekleme/can/hasar Plants vs Zombies'ten: alet canı 300, standart mermi 20 hasar / 1.425 sn, Ceviz 4000, Uzun Ceviz 8000, bombalar 1800 hasar.
+Jeneratör (İkiz Ayçiçeği) sadece Kollu Dinamo'nun üstüne kurulur. Elektrik Prizi 15 sn'de kurulur, kurulunca yenmez. Isıtıcı (diken) yenmez. Büyük Buzdolabı zıplayanı durdurur.
 
 Yavaşlatma: hızın **%50'si**, **2.5 sn** sürer.
 Mermi hızı: **0.62 u/sn**, çarpma toleransı **0.028 u**. (1 u = sahanın tüm genişliği)
 
 ### Mermi eşleşmesi
-`coffee→choco, toaster→toast, waffle→waffle, kettle→steam, fan→wave, hairdryer→wind,
+`toaster→toast, waffle→waffle, kettle→steam, fan→wave, hairdryer→wind,
 blender→juice, microwave→heat, iron→blast, vacuum→dust, washer→cloth, fryer→fry,
-sewing→thread, drill→drillbit, popcorn→popcorn`
+sewing→thread, drill→drillbit, popcorn→popcorn, lamp→heat(sarı), standmixer→choco, handmixer→wave,
+airfryer→fry, canopener→thread, airpurifier→dust, dishwasher→cloth, ricecooker→popcorn, foodprocessor→juice(yeşil), waterdispenser→juice(mavi)`
 
 ---
 
-## Oyuncaklar (düşman) — 20 adet (6 oyuncak + 14 mobilya)
+## Düşmanlar — 18 adet (6 oyuncak + 12 mobilya)
 
-| # | id | Ad | Can | Hız (u/sn) | Zırh | Isırık | Puan | Not |
+| # | id | Ad | PvZ karşılığı | Can | Hız (u/sn) | Isırık | Puan | Not |
 |---|---|---|---|---|---|---|---|---|
-| 1 | doll | Bebek | 150 | 0.052 | 0 | 22 | 10 |  |
-| 2 | bear | Oyuncak Ayı | 190 | 0.032 | 0 | 26 | 12 |  |
-| 3 | soldier | Kurşun Asker | 270 | 0.038 | 0.12 | 30 | 18 |  |
-| 4 | jack | Kutudaki Palyaço | 230 | 0.04 | 0 | 28 | 22 | Zıplar.  |
-| 5 | robot | Kurmalı Robot | 360 | 0.03 | 0.3 | 34 | 28 |  |
-| 6 | train | Hayalet Tren | 1100 | 0.022 | 0.2 | 70 | 80 | PATRON.  |
-| 7 | refrigerator | Buzdolabı | 500 | 0.025 | 0.1 | 40 | 40 | 2 kare (_0/_1). **2 kat büyük**. Dalgalara girmiyor (özellik sonra) |
-| 8 | minifridge | Mini Buzdolabı | 200 | 0.04 | 0 | 25 | 15 | 2 kare (_0/_1). Dalgalara girmiyor (özellik sonra) |
-| 9 | washingmachine | Çamaşır Makinesi (Düşman) | 320 | 0.03 | 0.15 | 32 | 25 | 2 kare (_0/_1). Dalgalara girmiyor (özellik sonra) |
-| 10 | table | Masa | 180 | 0.045 | 0 | 20 | 12 | 2 kare (_0/_1). Dalgalara girmiyor (özellik sonra) |
-| 11 | chair | Sandalye | 140 | 0.055 | 0 | 18 | 10 | 2 kare (_0/_1). Dalgalara girmiyor (özellik sonra) |
-| 12 | desklamp | Masa Lambası | 120 | 0.06 | 0 | 15 | 8 | 2 kare (_0/_1). Dalgalara girmiyor (özellik sonra) |
-| 13 | floorlamp | Zemin Lambası | 160 | 0.048 | 0 | 18 | 12 | 2 kare (_0/_1). Dalgalara girmiyor (özellik sonra) |
-| 14 | armchair | Koltuk | 280 | 0.028 | 0.05 | 28 | 20 | 2 kare (_0/_1). Dalgalara girmiyor (özellik sonra) |
-| 15 | television | Televizyon | 220 | 0.038 | 0.08 | 24 | 18 | 2 kare (_0/_1). Dalgalara girmiyor (özellik sonra) |
-| 16 | bookshelf | Kitaplık | 350 | 0.025 | 0.1 | 30 | 25 | 2 kare (_0/_1). Dalgalara girmiyor (özellik sonra) |
-| 17 | nightstand | Komodin | 150 | 0.05 | 0 | 18 | 12 | 2 kare (_0/_1). Dalgalara girmiyor (özellik sonra) |
-| 18 | trashcan | Çöp Kutusu | 130 | 0.055 | 0 | 15 | 10 | 2 kare (_0/_1). Dalgalara girmiyor (özellik sonra) |
-| 19 | coatrack | Portmanto | 100 | 0.065 | 0 | 12 | 8 | 2 kare (_0/_1). Dalgalara girmiyor (özellik sonra) |
-| 20 | dresser | Şifonyer | 300 | 0.03 | 0.08 | 28 | 22 | 2 kare (_0/_1). Dalgalara girmiyor (özellik sonra) |
+| 1 | doll | Bebek | Normal Zombi | 270 | 0.021 | 50 | 10 | Sıradan, yavaş yürür. |
+| 2 | bear | Oyuncak Ayı | Konili Zombi | 640 | 0.021 | 50 | 12 | Dolgun gövde, normalin 2 katından fazla dayanır. |
+| 3 | soldier | Kurşun Asker | Kovalı Zombi | 1370 | 0.021 | 50 | 18 | Metal kasklı, çok dayanıklı. Mıknatısla kaskı sökülür. Metal (kask 1100). |
+| 4 | jack | Kutudaki Palyaço | Sırıklı Zombi | 500 | 0.04 | 50 | 22 | Hızlı koşar, ilk aletin üstünden bir kez zıplar. Büyük Buzdolabı durdurur. |
+| 5 | robot | Kurmalı Robot | Futbolcu Zombi | 1670 | 0.042 | 50 | 28 | Metal gövde, hızlı ve çok dayanıklı. Metal (kask 1400). |
+| 6 | train | Hayalet Tren | Dev Zombi | 3000 | 0.017 | 1500 | 80 | PATRON. Aletleri tek darbede ezer. |
+| 7 | washingmachine | Çamaşır Makinesi (Düşman) | Buz Arabası | 1350 | 0.02 | 2000 | 25 | Önüne çıkan aleti anında ezer. |
+| 8 | table | Masa | Bayraklı Zombi | 270 | 0.026 | 50 | 12 | Büyük dalgaların öncüsü, biraz hızlı. |
+| 9 | chair | Sandalye | Cüce Zombi | 270 | 0.035 | 50 | 10 | Hafif ve hızlı. |
+| 10 | desklamp | Masa Lambası | Gazeteli Zombi | 420 | 0.021 | 50 | 12 | Abajuru kırılınca sinirlenip koşmaya başlar. |
+| 11 | floorlamp | Zemin Lambası | Dansçı Zombi | 500 | 0.026 | 50 | 14 | Uzun boylu, tuhaf adımlar. |
+| 12 | armchair | Koltuk | Konili Zombi (yavaş) | 640 | 0.018 | 50 | 14 | Şişman ve yavaş. |
+| 13 | television | Televizyon | Kapılı Zombi | 1370 | 0.021 | 50 | 20 | Ekranı kalkan gibi. Mıknatısla sökülür. Metal (kask 1100). |
+| 14 | bookshelf | Kitaplık | Ağır Zombi | 1100 | 0.018 | 50 | 20 | Ağır ve dayanıklı. |
+| 15 | nightstand | Komodin | Konili Zombi | 640 | 0.021 | 50 | 12 | Çekmeceleriyle korunur. |
+| 16 | trashcan | Çöp Kutusu | Çöp Kutulu Zombi | 1370 | 0.021 | 50 | 18 | Metal gövde. Mıknatısla kapağı sökülür. Metal (kask 1100). |
+| 17 | coatrack | Portmanto | Cüce Zombi | 270 | 0.032 | 50 | 8 | İnce ama çevik. |
+| 18 | dresser | Şifonyer | Ağır Zombi | 1100 | 0.019 | 50 | 20 | Çekmecelerini kalkan yapar. |
 
-Isırık aralığı: **500 ms**.
+Isırık aralığı: **500 ms** (50 hasar = PvZ'deki saniyede 100). Normal hız 0.021 u/sn ≈ kare başına 4.7 sn.
 
 ---
 
@@ -147,3 +156,12 @@ Isırık aralığı: **500 ms**.
 - Seçim ekranı 10×3 kart ile 30 aleti gösterir
 - Waffle → Starfruit (5 yöne yıldız), Vantilatör → sürekli geri iten (100), Blender → buz mermisi (175), Ütü bekleme 50 sn, Süpürge → Chomper, Çamaşır Makinesi → yakın kapak vuruşu, Fritöz → ateş ağacı, Dikiş Makinesi → sabitleme, Mısır Patlatma → 3 şerit
 - Vantilatör modelinin kırpık alt kısmı (direk + taban) tamamlandı; Çamaşır Makinesi karesindeki artık parça silindi
+
+### v0.15
+- 6 yeni model: Jeneratör (İkiz Ayçiçeği, Dinamo'nun üstüne), Kollu Dinamo (Ayçiçeği 50, saldırmaz), Eski Radyo (Duman Mantarı), Akü (Kiraz Bombası), Elektrik Prizi (Patates Mayını), Kollu Lamba (Tekrarlayıcı)
+- Mini Buzdolabı = Ceviz (50), Büyük Buzdolabı = Uzun Ceviz (125); ikisi düşman listesinden alet listesine geçti
+- 15 yer tutucu alete PvZ özelliği verildi (Stand Mikser = Makineli, Bulaşık = Lahana, Pirinç = Mısır, Mutfak Robotu = Kavun, Su Sebili = Kış Kavunu, Tost = Kabak, Nemlendirici = Buz Mantarı, Yavaş Pişirici = Kıyamet Mantarı, Isıtıcı = Diken Otu, Meyve Sıkacağı = Sarımsak, Giysi Buharlayıcı = Mıknatıs, Hava Temizleyici = Puf Mantarı, Konserve Açacağı = Korkak Mantar, El Mikseri = Bölünmüş Bezelye, Hava Fritözü = Kaktüs)
+- Kahve Makinesi artık Güneş Mantarı (25, +15, saldırmaz)
+- Düşmanlar PvZ zombilerine göre: can (270/640/1370/1670/3000), hız 0.021, ısırık 50; mobilyalar dalgalara girdi
+- Dalgalar PvZ temposunda: başta tek tek ve yavaş, hazırlık 20 sn, başlangıç enerjisi 50
+- Seçim ekranı 10×4

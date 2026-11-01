@@ -31,6 +31,9 @@ export class Toy {
     this.yOfset = 0;
     this.sabitKalan = 0;
     this.sabitlendi = false;
+    this.ziplaBitti = false;
+    this.kizgin = false;
+    this.sarimsakSayac = 0;
     this.cekiliyor = false;
     this.canli = true;
     this.temelOlcek = olcek * (veri.olcek || 1);
@@ -48,6 +51,12 @@ export class Toy {
     this.can -= miktar * (1 - (this.veri.zirh || 0));
     this.sprite.setTint(0xff9999);
     this.tintKalan = 70;
+    // Gazeteli zombi: kalkanı gidince sinirlenip hızlanır
+    const v = this.veri;
+    if (v.kizginCan && !this.kizgin && this.can <= v.kizginCan) {
+      this.kizgin = true;
+      this.hiz *= v.kizginCarpan || 2.5;
+    }
     return this.can <= 0;
   }
 
@@ -57,6 +66,20 @@ export class Toy {
     this.sabitlendi = true;
     this.sabitKalan = ms;
     this.sprite.anims.pause();
+  }
+
+  /** Buz mantarı / yapışkan top: tamamen durdurur (her seferinde) */
+  dondur(ms, yavasMs = 0) {
+    this.sabitKalan = Math.max(this.sabitKalan, ms);
+    this.yavasKalan = Math.max(this.yavasKalan, ms + yavasMs);
+    this.yiyor = null;
+    this.sprite.anims.pause();
+  }
+
+  /** Sırıklı: zıplama hakkını bitirir, normal hıza iner */
+  ziplamayiBitir() {
+    this.ziplaBitti = true;
+    if (this.veri.ziplaSonraHiz) this.hiz = this.veri.ziplaSonraHiz;
   }
 
   yavaslat() {

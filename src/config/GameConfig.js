@@ -3,7 +3,7 @@
  * Oyunun tüm global sabitleri. Denge ayarı yapmak isteyen sadece bu dosyaya bakar.
  */
 
-export const SURUM = 'v0.14';
+export const SURUM = 'v0.15';
 
 /** Tasarım çözünürlüğü (Scale.FIT ile her ekrana oturur). */
 export const DESIGN = { width: 1280, height: 720 };
@@ -46,7 +46,7 @@ export const ENERGY_UI = {
 };
 
 export const BALANCE = {
-  baslangicEnerjisi: 150,
+  baslangicEnerjisi: 50,       // PvZ: 50 ile başlar
   maxEnerji: 9990,
 
   /** Gökten düşen şimşek */
@@ -69,8 +69,8 @@ export const BALANCE = {
   yavaslatmaSuresiMs: 2500,
 
   /** Dalga */
-  dalgaArasiMs: 18000,
-  hazirlikSuresiMs: 12000
+  dalgaArasiMs: 15000,
+  hazirlikSuresiMs: 20000   // PvZ: ilk zombi ~20 sn sonra
 };
 
 /** Z sıralama katmanları */

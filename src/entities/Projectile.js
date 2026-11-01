@@ -18,9 +18,12 @@ export class Projectile {
     this.canli = false;
   }
 
-  kur(veri, row, u, olcek) {
+  kur(veri, row, u, olcek, yon = 1) {
     this.row = row;
     this.u = u;
+    this.yon = yon;
+    // Kısa menzilli atıcıların mermisi menzil sonunda söner
+    this.menzilSon = (veri.menzilU && veri.menzilU < 1) ? u + veri.menzilU + 0.03 : 1.14;
     this.hasar = veri.hasar;
     this.kalanDelme = veri.delici || 1;
     this.yavaslat = !!veri.yavaslat;
@@ -35,7 +38,7 @@ export class Projectile {
     const s = this.sprite;
     s.setFrame(veri.mermi);
     s.setScale(olcek * (BULLET_SCALE[veri.mermi] || 0.6));
-    s.setFlipX(false);
+    s.setFlipX(yon < 0);
     s.clearTint();
     if (veri.mermiRenk) s.setTint(veri.mermiRenk);
     s.setActive(true).setVisible(true);

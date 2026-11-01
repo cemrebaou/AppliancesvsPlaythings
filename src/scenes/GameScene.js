@@ -134,10 +134,11 @@ export class GameScene extends Phaser.Scene {
     if (!h) { this.hayalet.setVisible(false); return; }
 
     const bos = this.saha.bos(h.row, h.col);
+    const uygun = this.secimVeri ? this.saha.yerlesebilir(this.secimVeri, h.row, h.col) : bos;
     const silindir = this.secimVeri && this.secimVeri.rol === 'silindir';
     const renk = this.kurekModu ? (bos ? COLORS.kirmizi : COLORS.sari)
       : silindir ? COLORS.sari
-      : (bos ? COLORS.yesil : COLORS.kirmizi);
+      : (uygun ? COLORS.yesil : COLORS.kirmizi);
     const k = this.grid.hucreKoseleri(h.row, h.col);
     this.vurgu.fillStyle(renk, 0.22).fillPoints(
       [{ x: k[0], y: k[1] }, { x: k[2], y: k[3] }, { x: k[4], y: k[5] }, { x: k[6], y: k[7] }], true);
@@ -152,7 +153,7 @@ export class GameScene extends Phaser.Scene {
           .setPosition(p.x, p.y)
           .setScale(this.grid.olcek(h.row) * 1.2)
           .setVisible(true);
-      } else if (bos) {
+      } else if (uygun) {
         const c = this.grid.hucreMerkez(h.row, h.col);
         this.hayalet.setPosition(c.x, c.y)
           .setScale(this.grid.olcek(h.row) * 0.78 * (this.secimVeri.olcek || 1))
@@ -186,6 +187,12 @@ export class GameScene extends Phaser.Scene {
     if (!v) return;
 
     if (!this.seed.kartMusait(this.secimIndeks)) { Ses.hata(); return; }
+    if (!this.saha.yerlesebilir(v, h.row, h.col)) {
+      Ses.hata();
+      this.hud.bilgi(v.ustune ? 'Sadece Kollu Dinamo\'nun üstüne kurulur.' : 'Burası dolu.');
+      return;
+    }
+
     if (!this.enerji.harca(v.fiyat)) { Ses.hata(); this.hud.bilgi('Yeterli enerji yok.'); return; }
 
     // Silindir: herhangi bir karo seçilince o şeritten fırlat (kule koymaz)
@@ -198,8 +205,6 @@ export class GameScene extends Phaser.Scene {
       this.vurgu.clear();
       return;
     }
-
-    if (!this.saha.bos(h.row, h.col)) { Ses.hata(); this.hud.bilgi('Burası dolu.'); return; }
 
     this.saha.yerlestir(v, h.row, h.col);
     this.seed.beklemeBaslat(this.secimIndeks);
