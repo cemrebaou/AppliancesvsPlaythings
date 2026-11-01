@@ -4,6 +4,17 @@ import { DESIGN, SURUM, DEPTH } from '../config/GameConfig.js';
 import { Save } from '../core/Save.js';
 import { Ses } from '../core/Audio.js';
 
+/** Tam ekrana geçer ve telefonu yatay konuma kilitler (destekleyen tarayıcılarda). */
+export function tamEkranYap(scene) {
+  try { scene.scale.startFullscreen(); } catch (e) { /* desteklenmiyor */ }
+  setTimeout(() => {
+    try {
+      const o = screen.orientation;
+      if (o && o.lock) o.lock('landscape').catch(() => {});
+    } catch (e) { /* desteklenmiyor */ }
+  }, 150);
+}
+
 export class MenuScene extends Phaser.Scene {
   constructor() { super(SCENE.menu); }
 
@@ -44,6 +55,18 @@ export class MenuScene extends Phaser.Scene {
       Save.yaz({ sesAcik: yeni });
       b.setText(yeni ? 'SES: AÇIK' : 'SES: KAPALI');
       if (yeni) { Ses.ac(); Ses.tik(); }
+    }, 0.8);
+
+    // Tam ekran: basınca tam ekran olur ve ekranı yataya kilitler (dönme uyarısı yok)
+    this._dugme(W / 2, 552, this.scale.isFullscreen ? 'TAM EKRANDAN ÇIK' : 'TAM EKRAN', (b) => {
+      Ses.ac(); Ses.tik();
+      if (this.scale.isFullscreen) {
+        this.scale.stopFullscreen();
+        b.setText('TAM EKRAN');
+      } else {
+        tamEkranYap(this);
+        b.setText('TAM EKRANDAN ÇIK');
+      }
     }, 0.8);
 
     this.add.text(W - 12, H - 10, SURUM, {

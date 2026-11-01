@@ -1,6 +1,6 @@
 # OYUN.md — Appliances vs Playthings denge notları
 
-Sürüm: **v0.15**  — tüm değerler Plants vs Zombies karşılıklarına göre
+Sürüm: **v0.16**  — tüm değerler Plants vs Zombies karşılıklarına göre
 Bu dosya oyunun tüm sayılarını tutar. Kod tarafında karşılığı `src/config/` klasörüdür.
 
 ---
@@ -165,3 +165,7 @@ Isırık aralığı: **500 ms** (50 hasar = PvZ'deki saniyede 100). Normal hız 
 - Düşmanlar PvZ zombilerine göre: can (270/640/1370/1670/3000), hız 0.021, ısırık 50; mobilyalar dalgalara girdi
 - Dalgalar PvZ temposunda: başta tek tek ve yavaş, hazırlık 20 sn, başlangıç enerjisi 50
 - Seçim ekranı 10×4
+
+### v0.16
+- "Telefonu yatay çevir" uyarısı kaldırıldı
+- Menüye TAM EKRAN tuşu eklendi: basınca tam ekran olur ve ekran yataya kilitlenir (Android/Chrome). Tekrar basınca çıkar
