@@ -38,24 +38,40 @@ Bu dosya oyunun tüm sayılarını tutar. Kod tarafında karşılığı `src/con
 
 ## Ev aletleri (savunma) — 30 adet
 
-| # | Ad | Fiyat | Can | Hasar | Atış (ms) | Menzil | Özellik |
-|---|---|---|---|---|---|---|---|
-| 1 | Kahve Makinesi | 50 | 300 | 8 | 3200 | 0.18 | **Enerji üreteci**: 9 sn'de +25 |
-| 2 | Ekmek Kızartma | 100 | 300 | 20 | 1450 | tam | Temel atıcı |
-| 3 | Waffle Makinesi | 125 | 300 | 20 | 1500 | tüm saha | **Yıldız** (Starfruit): 5 yöne yıldız atar |
-| 4 | Su Isıtıcısı | 150 | 300 | 14 | 1500 | tam | Yavaşlatır |
-| 5 | Vantilatör | 100 | 280 | – | – | 0.45 | **Sürekli geri üfler** (0.085 u/sn) |
-| 6 | Saç Kurutma | 175 | 300 | 16 | 1600 | tam | Geri iter (0.045 u) |
-| 7 | Blender | 175 | 300 | 20 | 1450 | tam | **Buz mermisi** (Snow Pea) yavaşlatır |
-| 8 | Mikrodalga | 250 | 340 | **48** | 1400 | 0.32 | Kısa menzil, 2 delme |
-| 9 | Ütü | 125 | – | – | bekleme **50 sn** | şerit | Silindir (Jalapeño): şeridi ezer |
-| 10 | Elektrikli Süpürge | 150 | 300 | – | – | 0.22 | **Chomper**: çeker, yutar, %10 büyür, 42 sn sindirip atar |
-| 11 | Çamaşır Makinesi | 150 | 400 | 45 | 1000 | 0.17 | Yakına gelene kapak vurur |
-| 12 | Fritöz | 175 | 300 | – | – | – | **Ateş ağacı** (Torchwood): geçen mermiler sarı parlar, 2 kat hasar, buzu eritir |
-| 13 | Dikiş Makinesi | 175 | 300 | 8 | **420** | tam | İlk dikişte düşmanı 3 sn yere sabitler |
-| 14 | Matkap | 300 | 320 | 34 | 1500 | tam | **Tüm şeridi deler** |
-| 15 | Mısır Patlatma | 325 | 360 | 20 | 1450 | tam | **3 şeride** atar (Threepeater) |
-| 16-30 | Pirinç Pişirici, Stand Mikser, Hava Fritözü, Bulaşık Makinesi, Isıtıcı, Nemlendirici, Hava Temizleyici, Yavaş Pişirici, Konserve Açacağı, Mutfak Robotu, Tost Makinesi, El Mikseri, Meyve Sıkacağı, Giysi Buharlayıcı, Su Sebili | 75-200 | – | – | – | – | v0.14: sadece model + isim (özellik sonra) |
+| # | id | Ad | Fiyat | Bekleme | Can | Hasar | Atış | Özellik |
+|---|---|---|---|---|---|---|---|---|
+| 1 | coffee | Kahve Makinesi | 50 | 7 sn | 300 | 8 | 3.2 sn | Enerji üretir (9 sn'de +25), yakına kahve atar |
+| 2 | toaster | Ekmek Kızartma | 100 | 5 sn | 300 | 20 | 1.45 sn | Temel atıcı |
+| 3 | waffle | Waffle Makinesi | 125 | 7.5 sn | 300 | 20 | 1.5 sn | Starfruit: 5 yöne yıldız (sağ, sol, sağ-yukarı, sağ-aşağı, sol-yukarı) |
+| 4 | kettle | Su Isıtıcısı | 150 | 7 sn | 300 | 14 | 1.5 sn | Yavaşlatır |
+| 5 | fan | Vantilatör | 100 | 7.5 sn | 280 | – | – | Blover (kalıcı): menzildekileri sürekli geri üfler |
+| 6 | hairdryer | Saç Kurutma | 175 | 8 sn | 300 | 16 | 1.6 sn | Geri iter |
+| 7 | blender | Blender | 175 | 7.5 sn | 300 | 20 | 1.45 sn | Snow Pea: mavi buz mermisi, yavaşlatır |
+| 8 | microwave | Mikrodalga | 250 | 11 sn | 340 | 48 | 1.4 sn | Kısa menzil, ağır hasar, 2 delme |
+| 9 | iron | Ütü | 125 | 50 sn | – | – | – | Silindir (Jalapeño): şeridin gerisinden geçip hepsini ezer, kule koymaz |
+| 10 | vacuum | Elektrikli Süpürge | 150 | 7.5 sn | 300 | – | – | Chomper: 2 kare ilerideki düşmanı çeker, yutar (%10 büyür), 42 sn sindirip öldürür |
+| 11 | washer | Çamaşır Makinesi | 150 | 7.5 sn | 400 | 45 | 1 sn | Yakın kapak vuruşu (Snapdragon) |
+| 12 | fryer | Fritöz | 175 | 7.5 sn | 300 | – | – | Ateş ağacı (Torchwood): geçen mermi sarı parlar, 2x hasar, buzu eritir |
+| 13 | sewing | Dikiş Makinesi | 175 | 8 sn | 300 | 8 | 0.42 sn | İlk vuruşta düşmanı 3 sn yere sabitler (düşman başına 1 kez) |
+| 14 | drill | Matkap | 300 | 14 sn | 320 | 34 | 1.5 sn | Tüm şeridi deler |
+| 15 | popcorn | Mısır Patlatma | 325 | 7.5 sn | 360 | 20 | 1.45 sn | Threepeater: 3 şeride atar |
+| 16 | ricecooker | Pirinç Pişirici | 100 | 7 sn | 300 | 15 | 1.5 sn | **Yer tutucu — özellik sonra verilecek** |
+| 17 | standmixer | Stand Mikser | 150 | 8 sn | 300 | 18 | 1.2 sn | **Yer tutucu — özellik sonra verilecek** |
+| 18 | airfryer | Hava Fritözü | 175 | 9 sn | 300 | 22 | 1.6 sn | **Yer tutucu — özellik sonra verilecek** |
+| 19 | dishwasher | Bulaşık Makinesi | 200 | 10 sn | 400 | 20 | 1.8 sn | **Yer tutucu — özellik sonra verilecek** |
+| 20 | spaceheater | Isıtıcı | 125 | 7 sn | 280 | 16 | 1.4 sn | **Yer tutucu — özellik sonra verilecek** |
+| 21 | humidifier | Nemlendirici | 100 | 6 sn | 260 | 12 | 1.3 sn | **Yer tutucu — özellik sonra verilecek** |
+| 22 | airpurifier | Hava Temizleyici | 150 | 7.5 sn | 300 | 14 | 1.1 sn | **Yer tutucu — özellik sonra verilecek** |
+| 23 | slowcooker | Yavaş Pişirici | 125 | 8 sn | 350 | 17 | 1.7 sn | **Yer tutucu — özellik sonra verilecek** |
+| 24 | canopener | Elektrikli Konserve Açacağı | 75 | 5 sn | 200 | 10 | 0.9 sn | **Yer tutucu — özellik sonra verilecek** |
+| 25 | foodprocessor | Mutfak Robotu | 200 | 9 sn | 320 | 24 | 1.3 sn | **Yer tutucu — özellik sonra verilecek** |
+| 26 | paninipress | Tost Makinesi | 125 | 7 sn | 280 | 18 | 1.5 sn | **Yer tutucu — özellik sonra verilecek** |
+| 27 | handmixer | El Mikseri | 100 | 6 sn | 240 | 13 | 0.8 sn | **Yer tutucu — özellik sonra verilecek** |
+| 28 | citrusjuicer | Meyve Sıkacağı | 75 | 5 sn | 200 | 11 | 1.2 sn | **Yer tutucu — özellik sonra verilecek** |
+| 29 | clothessteamer | Giysi Buharlayıcı | 125 | 7 sn | 260 | 15 | 1.4 sn | **Yer tutucu — özellik sonra verilecek** |
+| 30 | waterdispenser | Su Sebili | 100 | 6 sn | 280 | 8 | 2.5 sn | **Yer tutucu — özellik sonra verilecek** |
+
+Bekleme = kartın tekrar kullanılabilmesi için gereken süre. Fiyat/bekleme eşleşmeleri Plants vs Zombies'ten: Chomper 150$, Jalapeño 125$ (50 sn), Snow Pea 175$, Torchwood 175$, Starfruit 125$, Threepeater 325$, Blover 100$ (7.5 sn).
 
 Yavaşlatma: hızın **%50'si**, **2.5 sn** sürer.
 Mermi hızı: **0.62 u/sn**, çarpma toleransı **0.028 u**. (1 u = sahanın tüm genişliği)
@@ -69,14 +85,28 @@ sewing→thread, drill→drillbit, popcorn→popcorn`
 
 ## Oyuncaklar (düşman) — 20 adet (6 oyuncak + 14 mobilya)
 
-| Ad | Can | Hız (u/sn) | Zırh | Isırık | Puan | Özellik |
-|---|---|---|---|---|---|---|
-| Bebek | 150 | 0.052 | — | 22 | 10 | En hızlı |
-| Oyuncak Ayı | 190 | 0.032 | — | 26 | 12 | Dengeli |
-| Kurşun Asker | 270 | 0.038 | %12 | 30 | 18 | Hafif zırhlı |
-| Kutudaki Palyaço | 230 | 0.040 | — | 28 | 22 | **5.2 sn'de bir zıplayıp bir cihazı atlar** |
-| Kurmalı Robot | 360 | 0.030 | %30 | 34 | 28 | Metal gövde |
-| Hayalet Tren | **1100** | 0.022 | %20 | **70** | 80 | **PATRON** |
+| # | id | Ad | Can | Hız (u/sn) | Zırh | Isırık | Puan | Not |
+|---|---|---|---|---|---|---|---|---|
+| 1 | doll | Bebek | 150 | 0.052 | 0 | 22 | 10 |  |
+| 2 | bear | Oyuncak Ayı | 190 | 0.032 | 0 | 26 | 12 |  |
+| 3 | soldier | Kurşun Asker | 270 | 0.038 | 0.12 | 30 | 18 |  |
+| 4 | jack | Kutudaki Palyaço | 230 | 0.04 | 0 | 28 | 22 | Zıplar.  |
+| 5 | robot | Kurmalı Robot | 360 | 0.03 | 0.3 | 34 | 28 |  |
+| 6 | train | Hayalet Tren | 1100 | 0.022 | 0.2 | 70 | 80 | PATRON.  |
+| 7 | refrigerator | Buzdolabı | 500 | 0.025 | 0.1 | 40 | 40 | 2 kare (_0/_1). **2 kat büyük**. Dalgalara girmiyor (özellik sonra) |
+| 8 | minifridge | Mini Buzdolabı | 200 | 0.04 | 0 | 25 | 15 | 2 kare (_0/_1). Dalgalara girmiyor (özellik sonra) |
+| 9 | washingmachine | Çamaşır Makinesi (Düşman) | 320 | 0.03 | 0.15 | 32 | 25 | 2 kare (_0/_1). Dalgalara girmiyor (özellik sonra) |
+| 10 | table | Masa | 180 | 0.045 | 0 | 20 | 12 | 2 kare (_0/_1). Dalgalara girmiyor (özellik sonra) |
+| 11 | chair | Sandalye | 140 | 0.055 | 0 | 18 | 10 | 2 kare (_0/_1). Dalgalara girmiyor (özellik sonra) |
+| 12 | desklamp | Masa Lambası | 120 | 0.06 | 0 | 15 | 8 | 2 kare (_0/_1). Dalgalara girmiyor (özellik sonra) |
+| 13 | floorlamp | Zemin Lambası | 160 | 0.048 | 0 | 18 | 12 | 2 kare (_0/_1). Dalgalara girmiyor (özellik sonra) |
+| 14 | armchair | Koltuk | 280 | 0.028 | 0.05 | 28 | 20 | 2 kare (_0/_1). Dalgalara girmiyor (özellik sonra) |
+| 15 | television | Televizyon | 220 | 0.038 | 0.08 | 24 | 18 | 2 kare (_0/_1). Dalgalara girmiyor (özellik sonra) |
+| 16 | bookshelf | Kitaplık | 350 | 0.025 | 0.1 | 30 | 25 | 2 kare (_0/_1). Dalgalara girmiyor (özellik sonra) |
+| 17 | nightstand | Komodin | 150 | 0.05 | 0 | 18 | 12 | 2 kare (_0/_1). Dalgalara girmiyor (özellik sonra) |
+| 18 | trashcan | Çöp Kutusu | 130 | 0.055 | 0 | 15 | 10 | 2 kare (_0/_1). Dalgalara girmiyor (özellik sonra) |
+| 19 | coatrack | Portmanto | 100 | 0.065 | 0 | 12 | 8 | 2 kare (_0/_1). Dalgalara girmiyor (özellik sonra) |
+| 20 | dresser | Şifonyer | 300 | 0.03 | 0.08 | 28 | 22 | 2 kare (_0/_1). Dalgalara girmiyor (özellik sonra) |
 
 Isırık aralığı: **500 ms**.
 
