@@ -134,7 +134,9 @@ export class GameScene extends Phaser.Scene {
     if (!h) { this.hayalet.setVisible(false); return; }
 
     const bos = this.saha.bos(h.row, h.col);
+    const silindir = this.secimVeri && this.secimVeri.rol === 'silindir';
     const renk = this.kurekModu ? (bos ? COLORS.kirmizi : COLORS.sari)
+      : silindir ? COLORS.sari
       : (bos ? COLORS.yesil : COLORS.kirmizi);
     const k = this.grid.hucreKoseleri(h.row, h.col);
     this.vurgu.fillStyle(renk, 0.22).fillPoints(
@@ -142,11 +144,22 @@ export class GameScene extends Phaser.Scene {
     this.vurgu.lineStyle(3, renk, 0.9).strokePoints(
       [{ x: k[0], y: k[1] }, { x: k[2], y: k[3] }, { x: k[4], y: k[5] }, { x: k[6], y: k[7] }], true);
 
-    if (this.secimVeri && bos) {
-      const c = this.grid.hucreMerkez(h.row, h.col);
-      this.hayalet.setPosition(c.x, c.y)
-        .setScale(this.grid.olcek(h.row) * 0.78 * (this.secimVeri.olcek || 1))
-        .setVisible(true);
+    if (this.secimVeri) {
+      // Silindir: en geride (sol uç) görünür
+      if (this.secimVeri.rol === 'silindir') {
+        const p = this.grid.seritNokta(h.row, 0.0);
+        this.hayalet.setFrame('iron_1')
+          .setPosition(p.x, p.y)
+          .setScale(this.grid.olcek(h.row) * 1.2)
+          .setVisible(true);
+      } else if (bos) {
+        const c = this.grid.hucreMerkez(h.row, h.col);
+        this.hayalet.setPosition(c.x, c.y)
+          .setScale(this.grid.olcek(h.row) * 0.78 * (this.secimVeri.olcek || 1))
+          .setVisible(true);
+      } else {
+        this.hayalet.setVisible(false);
+      }
     } else {
       this.hayalet.setVisible(false);
     }
@@ -172,9 +185,21 @@ export class GameScene extends Phaser.Scene {
     const v = this.secimVeri;
     if (!v) return;
 
-    if (!this.saha.bos(h.row, h.col)) { Ses.hata(); this.hud.bilgi('Burası dolu.'); return; }
     if (!this.seed.kartMusait(this.secimIndeks)) { Ses.hata(); return; }
     if (!this.enerji.harca(v.fiyat)) { Ses.hata(); this.hud.bilgi('Yeterli enerji yok.'); return; }
+
+    // Silindir: herhangi bir karo seçilince o şeritten fırlat (kule koymaz)
+    if (v.rol === 'silindir') {
+      this.saha.yerlestir(v, h.row, h.col);
+      this.seed.beklemeBaslat(this.secimIndeks);
+      Ses.yerlestir();
+      this.seed.secimiBirak();
+      this.hayalet.setVisible(false);
+      this.vurgu.clear();
+      return;
+    }
+
+    if (!this.saha.bos(h.row, h.col)) { Ses.hata(); this.hud.bilgi('Burası dolu.'); return; }
 
     this.saha.yerlestir(v, h.row, h.col);
     this.seed.beklemeBaslat(this.secimIndeks);
@@ -222,7 +247,8 @@ export class GameScene extends Phaser.Scene {
       enYuksekDalga: Math.max(k.enYuksekDalga, this.dalga.gorunenDalga),
       enYuksekSkor: Math.max(k.enYuksekSkor, this.skor)
     });
-    this.time.delayedCall(700, () => {
+    // Kısa gecikme: kamera titremesi bitmeden sahne değişmesin ama çok bekleme
+    this.time.delayedCall(180, () => {
       this.scene.start(SCENE.over, {
         kazandi, dalga: this.dalga.gorunenDalga, skor: this.skor
       });

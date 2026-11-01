@@ -1,6 +1,6 @@
 # OYUN.md — Appliances vs Playthings denge notları
 
-Sürüm: **v0.12**
+Sürüm: **v0.13**
 Bu dosya oyunun tüm sayılarını tutar. Kod tarafında karşılığı `src/config/` klasörüdür.
 
 ---
@@ -102,3 +102,11 @@ Isırık aralığı: **500 ms**.
 - 15 dalga + sonsuz mod, 3 can, kürek, duraklat, erken dalga çağırma
 - Tek doku atlası, tam havuzlu nesne yönetimi, fizik motoru yok
 - WebAudio ile üretilen ses efektleri (0 KB)
+
+### v0.13
+- Ütü kule modundan çıktı: basılan şeridin en gerisinden sağa sweeping silindir saldırısı yapar, yoldaki tüm düşmanları ezer (görsel deformasyon)
+- Ütü fiyatı 175 → 125
+- Oyun bitince ekran hemen gelir (700 ms gecikme → 180 ms)
+- Şimşek temizliğinde null-check eklendi (Chrome crash düzeltmesi)
+- Düşmanlar sızdığında kapıya koşar; kapının sol duvarına değince kaybolur
+- Sağ alt köşeye oynanırken sürüm numarası eklendi

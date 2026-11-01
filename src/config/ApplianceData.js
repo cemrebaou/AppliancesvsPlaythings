@@ -74,10 +74,9 @@ export const APPLIANCES = [
     aciklama: 'Kısa menzilli ışın. Yakına çok ağır hasar verir.'
   },
   {
-    id: 'iron', ad: 'Ütü', fiyat: 175, can: 320, bekleme: 9000,
-    rol: 'atici', mermi: 'blast', hasar: 42, atisMs: 2600, menzilU: 1.2,
-    seritler: [0], delici: 1, olcek: 1.0,
-    aciklama: 'Yavaş ama çok sert buhar patlaması.'
+    id: 'iron', ad: 'Ütü', fiyat: 125, bekleme: 7000,
+    rol: 'silindir', hizU: 0.55, olcek: 1.2,
+    aciklama: 'En gerideki düşmana yaptır — ezüp geçer, hepsini tek seferde öldürür.'
   },
   {
     id: 'vacuum', ad: 'Elektrikli Süpürge', fiyat: 200, can: 300, bekleme: 10000,

@@ -3,7 +3,7 @@
  * Enerji sayacı, dalga göstergesi, skor, kürek ve duraklat düğmeleri.
  * Metinler nadiren değiştiği için her karede setText çağrılmaz.
  */
-import { DESIGN, ENERGY_UI, DEPTH, COLORS } from '../config/GameConfig.js';
+import { DESIGN, ENERGY_UI, DEPTH, COLORS, SURUM } from '../config/GameConfig.js';
 import { Ses } from '../core/Audio.js';
 
 const YAZI = (boy, renk = '#ffffff') => ({
@@ -33,6 +33,10 @@ export class Hud {
 
     this.bilgiYazi = scene.add.text(DESIGN.width / 2, 132, '', YAZI(22, '#ffe9a8'))
       .setOrigin(0.5).setDepth(DEPTH.ui + 3).setScrollFactor(0).setAlpha(0);
+
+    // Sürüm: sağ alt köşe
+    scene.add.text(DESIGN.width - 8, DESIGN.height - 6, SURUM, YAZI(12, '#a08060'))
+      .setOrigin(1, 1).setDepth(DEPTH.ui + 3).setScrollFactor(0).setAlpha(0.7);
 
     const BY = 168;
     this.kurek = this._dugme(DESIGN.width - 60, BY, 'KÜREK', () => {

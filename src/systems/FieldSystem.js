@@ -16,12 +16,19 @@ import { Toy } from '../entities/Toy.js';
 import { Projectile } from '../entities/Projectile.js';
 import { Spark } from '../entities/Spark.js';
 import { BALANCE, DEPTH, GRID } from '../config/GameConfig.js';
+import { K } from '../core/Keys.js';
 import { Ses } from '../core/Audio.js';
 
 const CIHAZ_TABAN_OLCEK = 0.78;
 const DUSMAN_TABAN_OLCEK = 0.80;
 const MERMI_TABAN_OLCEK = 1.0;
 const MERMI_Y_OFSET = 44;   // merminin zeminden yüksekliği (gövde hizası)
+
+// Kapı: şimşek solun gerisinde kalan alan (arka-sol köşe civarı)
+// Düşmanlar sızdıktan sonra buraya doğru koşar ve sol duvarda "kaybolur"
+const KAPI_X = 195;  // kapının sol duvar eşiği (bu x'i geçince sprite gizlenir)
+const KAPI_HEDEF_X = 225;
+const KAPI_HEDEF_Y = 310;
 
 export class FieldSystem {
   /**
@@ -44,10 +51,12 @@ export class FieldSystem {
       this.seritler.push({
         dusmanlar: [],
         mermiler: [],
-        cihazlar: new Array(grid.cols).fill(null)
+        cihazlar: new Array(grid.cols).fill(null),
+        silindir: []   // aktif silindir saldırıları
       });
     }
     this.olenler = [];     // ölüm animasyonu oynayan düşmanlar
+    this.kacanlar = [];    // sızdıktan sonra kapıya koşan düşmanlar
     this.duraklat = false;
   }
 
@@ -70,6 +79,11 @@ export class FieldSystem {
   }
 
   yerlestir(veri, row, col) {
+    // Silindir: kule değil, şeridi boydan boya eziyor
+    if (veri.rol === 'silindir') {
+      this._silindir(veri, row);
+      return null;
+    }
     if (!this.bos(row, col)) return null;
     const p = this.grid.hucreMerkez(row, col);
     const olcek = this.grid.olcek(row) * CIHAZ_TABAN_OLCEK;
@@ -77,6 +91,19 @@ export class FieldSystem {
     a.u = this.grid.sutunU(col);
     this.seritler[row].cihazlar[col] = a;
     return a;
+  }
+
+  // Silindir başlatır: şeridin en gerisinden (u=0) sağa doğru ilerler
+  _silindir(veri, row) {
+    const olcek = this.grid.olcek(row) * (veri.olcek || 1.2);
+    const p = this.grid.seritNokta(row, 0);
+    const spr = this.scene.add.image(p.x, p.y, K.atlas, 'iron_1')
+      .setOrigin(0.5, 0.76)
+      .setScale(olcek)
+      .setDepth(DEPTH.field + p.y + 5)
+      .setTint(0xff8800);
+    this.seritler[row].silindir.push({ sprite: spr, u: 0, row, hiz: veri.hizU || 0.55 });
+    Ses.atis();
   }
 
   sok(row, col) {
@@ -127,9 +154,11 @@ export class FieldSystem {
       this._cihazlariGuncelle(lane, r, dt);
       this._dusmanlariGuncelle(lane, r, dt, dts);
       this._mermileriGuncelle(lane, r, dts);
+      this._silindirleriGuncelle(lane, r, dts);
     }
 
     this._olenleriGuncelle(dt);
+    this._kacanGuncelle(dt);
     this._simsekleriGuncelle(dt, dts);
   }
 
@@ -199,6 +228,59 @@ export class FieldSystem {
     this.seritler[row].mermiler.push(m);
   }
 
+  // --- silindir: şeridin solundan sağına kayarak tüm düşmanları ezer
+  _silindirleriGuncelle(lane, r, dts) {
+    const arr = lane.silindir;
+    const grid = this.grid;
+    for (let i = arr.length - 1; i >= 0; i--) {
+      const sl = arr[i];
+      sl.u += sl.hiz * dts;
+
+      const p = grid.seritNokta(r, sl.u);
+      sl.sprite.x = p.x;
+      sl.sprite.y = p.y;
+      sl.sprite.setDepth(DEPTH.field + p.y + 5);
+      const olcek = grid.olcek(r) * 1.2;
+      sl.sprite.setScale(olcek);
+
+      // düşmanlara çarpıyor mu?
+      const dusmanlar = lane.dusmanlar;
+      for (let j = dusmanlar.length - 1; j >= 0; j--) {
+        const d = dusmanlar[j];
+        if (Math.abs(d.u - sl.u) < 0.065) {
+          // Ezme efekti: yere yapış
+          d.sprite.setScale(d.sprite.scaleX, d.sprite.scaleY * 0.12);
+          d.sprite.y += 18 * olcek;
+          d.sprite.setTint(0x555555);
+          d.can = 0;
+          // ölüm listesine değil, direkt temizle (ezildi efekti kısa)
+          const son = dusmanlar.length - 1;
+          if (j !== son) dusmanlar[j] = dusmanlar[son];
+          dusmanlar.pop();
+          this._ezildiAnimasyon(d, r);
+          this.olaylar.dusmanOldu(d);
+          Ses.carpma();
+        }
+      }
+
+      // Şeridin sonuna ulaşınca kaldır
+      if (sl.u > 1.15) {
+        sl.sprite.destroy();
+        const son = arr.length - 1;
+        if (i !== son) arr[i] = arr[son];
+        arr.pop();
+      }
+    }
+  }
+
+  // Ezilmiş düşman: yerde yassı kalır kısa süre, sonra yok olur
+  _ezildiAnimasyon(t, r) {
+    t.canli = false;
+    t.olum = 500;          // 500ms yerde kalır
+    t.sprite.rotation = (Math.random() - 0.5) * 0.5;
+    this.olenler.push(t);
+  }
+
   // --- düşmanlar: yürür, yer, zıplar
   _dusmanlariGuncelle(lane, r, dt, dts) {
     const list = lane.dusmanlar;
@@ -253,9 +335,15 @@ export class FieldSystem {
       s.x = p.x; s.y = p.y + t.yOfset;
       s.setDepth(DEPTH.field + p.y);
 
-      // sızdı mı?
+      // sızdı mı? → kapıya kaç animasyonu başlat
       if (t.u < -0.03) {
-        this._dusmaniCikar(lane, i);
+        const son = list.length - 1;
+        if (i !== son) list[i] = list[son];
+        list.pop();
+        // Kapıya koş animasyonuna al (sprite hâlâ görünür)
+        t.kapiHedefX = KAPI_HEDEF_X;
+        t.kapiHedefY = KAPI_HEDEF_Y;
+        this.kacanlar.push(t);
         this.olaylar.sizdi(t);
         continue;
       }
@@ -276,6 +364,36 @@ export class FieldSystem {
     return t;
   }
 
+  // Kapıya kaçan düşmanları güncelle
+  _kacanGuncelle(dt) {
+    const dts = dt / 1000;
+    const arr = this.kacanlar;
+    for (let i = arr.length - 1; i >= 0; i--) {
+      const t = arr[i];
+      const s = t.sprite;
+      const dx = t.kapiHedefX - s.x;
+      const dy = t.kapiHedefY - s.y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      const hiz = 160 * dts;
+
+      if (dist < hiz + 2) {
+        // Kapının sol duvarına ulaştı → gizle ve havuza bırak
+        t.oldur();
+        this.dusmanHavuz.birak(t);
+        const son = arr.length - 1;
+        if (i !== son) arr[i] = arr[son];
+        arr.pop();
+      } else {
+        s.x += (dx / dist) * hiz;
+        s.y += (dy / dist) * hiz;
+        // Sol duvara yaklaşınca (kapının çerçevesi arkasına geçince) soldur
+        if (s.x < KAPI_X + 30) {
+          s.setAlpha(Math.max(0, (s.x - KAPI_X) / 30));
+        }
+      }
+    }
+  }
+
   _olumBasla(t) {
     t.canli = false;
     t.olum = 280;
@@ -290,9 +408,16 @@ export class FieldSystem {
       const t = arr[i];
       t.olum -= dt;
       const o = Math.max(0, t.olum) / 280;
-      t.sprite.setAlpha(o);
-      t.sprite.y -= dt * 0.03;
-      t.sprite.rotation = (1 - o) * 0.9;
+
+      // Ezilenler için özel animasyon (yassı + solma)
+      if (t.sprite.scaleY !== undefined && t.sprite.scaleY < t.sprite.scaleX * 0.5) {
+        t.sprite.setAlpha(o * 0.8);
+      } else {
+        t.sprite.setAlpha(o);
+        t.sprite.y -= dt * 0.03;
+        t.sprite.rotation = (1 - o) * 0.9;
+      }
+
       if (t.olum <= 0) {
         t.sprite.rotation = 0;
         t.oldur();
@@ -407,11 +532,21 @@ export class FieldSystem {
         const a = lane.cihazlar[c];
         if (a) { a.oldur(); this.cihazHavuz.birak(a); lane.cihazlar[c] = null; }
       }
+      // Silindirler
+      for (let i = lane.silindir.length - 1; i >= 0; i--) {
+        lane.silindir[i].sprite.destroy();
+      }
+      lane.silindir.length = 0;
     }
     for (let i = this.olenler.length - 1; i >= 0; i--) {
       const t = this.olenler[i]; t.oldur(); this.dusmanHavuz.birak(t);
     }
     this.olenler.length = 0;
+    // Kapıya kaçanlar
+    for (let i = this.kacanlar.length - 1; i >= 0; i--) {
+      const t = this.kacanlar[i]; t.oldur(); this.dusmanHavuz.birak(t);
+    }
+    this.kacanlar.length = 0;
     this.simsekHavuz.hepsiniBirak(s => s.oldur());
   }
 }

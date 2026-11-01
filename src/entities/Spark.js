@@ -48,7 +48,7 @@ export class Spark {
 
   oldur() {
     this.canli = false;
-    this.sprite.input.enabled = false;
+    if (this.sprite.input) this.sprite.input.enabled = false;
     this.sprite.setActive(false).setVisible(false);
   }
 }
