@@ -29,6 +29,9 @@ export class Toy {
     this.ziplaKalan = 0;
     this.ziplaBasU = 0;
     this.yOfset = 0;
+    this.sabitKalan = 0;
+    this.sabitlendi = false;
+    this.cekiliyor = false;
     this.canli = true;
     this.temelOlcek = olcek * (veri.olcek || 1);
 
@@ -46,6 +49,14 @@ export class Toy {
     this.sprite.setTint(0xff9999);
     this.tintKalan = 70;
     return this.can <= 0;
+  }
+
+  /** Dikiş makinesi: ilk vuruşta yere sabitler (her düşmana bir kez). */
+  sabitle(ms) {
+    if (this.sabitlendi) return;
+    this.sabitlendi = true;
+    this.sabitKalan = ms;
+    this.sprite.anims.pause();
   }
 
   yavaslat() {
@@ -70,5 +81,7 @@ export class Toy {
     this.canli = false;
     this.sprite.setActive(false).setVisible(false);
     this.sprite.stop();
+    this.cekiliyor = false;
+    this.sabitKalan = 0;
   }
 }

@@ -1,6 +1,6 @@
 # OYUN.md — Appliances vs Playthings denge notları
 
-Sürüm: **v0.13**
+Sürüm: **v0.14**
 Bu dosya oyunun tüm sayılarını tutar. Kod tarafında karşılığı `src/config/` klasörüdür.
 
 ---
@@ -36,25 +36,26 @@ Bu dosya oyunun tüm sayılarını tutar. Kod tarafında karşılığı `src/con
 
 ---
 
-## Ev aletleri (savunma) — 15 adet
+## Ev aletleri (savunma) — 30 adet
 
 | # | Ad | Fiyat | Can | Hasar | Atış (ms) | Menzil | Özellik |
 |---|---|---|---|---|---|---|---|
 | 1 | Kahve Makinesi | 50 | 300 | 8 | 3200 | 0.18 | **Enerji üreteci**: 9 sn'de +25 |
 | 2 | Ekmek Kızartma | 100 | 300 | 20 | 1450 | tam | Temel atıcı |
-| 3 | Waffle Makinesi | 50 | **1600** | 10 | 3000 | 0.35 | **Duvar** |
+| 3 | Waffle Makinesi | 125 | 300 | 20 | 1500 | tüm saha | **Yıldız** (Starfruit): 5 yöne yıldız atar |
 | 4 | Su Isıtıcısı | 150 | 300 | 14 | 1500 | tam | Yavaşlatır |
-| 5 | Vantilatör | 125 | 280 | 11 | 850 | tam | Hızlı atış |
+| 5 | Vantilatör | 100 | 280 | – | – | 0.45 | **Sürekli geri üfler** (0.085 u/sn) |
 | 6 | Saç Kurutma | 175 | 300 | 16 | 1600 | tam | Geri iter (0.045 u) |
-| 7 | Blender | 200 | 300 | 18 | 1700 | tam | 3 düşmanı deler |
+| 7 | Blender | 175 | 300 | 20 | 1450 | tam | **Buz mermisi** (Snow Pea) yavaşlatır |
 | 8 | Mikrodalga | 250 | 340 | **48** | 1400 | 0.32 | Kısa menzil, 2 delme |
-| 9 | Ütü | 175 | 320 | **42** | 2600 | tam | Ağır, yavaş |
-| 10 | Elektrikli Süpürge | 200 | 300 | 15 | 1500 | 0.9 | Düşmanı çeker (0.035 u) |
-| 11 | Çamaşır Makinesi | 225 | 520 | 24 | 2100 | tam | Alan hasarı (0.07 u) |
-| 12 | Fritöz | 150 | 300 | 13 | 1800 | 1.0 | **3 şeride** birden atar |
-| 13 | Dikiş Makinesi | 175 | 300 | 8 | **420** | tam | Çok hızlı + yavaşlatır |
+| 9 | Ütü | 125 | – | – | bekleme **50 sn** | şerit | Silindir (Jalapeño): şeridi ezer |
+| 10 | Elektrikli Süpürge | 150 | 300 | – | – | 0.22 | **Chomper**: çeker, yutar, %10 büyür, 42 sn sindirip atar |
+| 11 | Çamaşır Makinesi | 150 | 400 | 45 | 1000 | 0.17 | Yakına gelene kapak vurur |
+| 12 | Fritöz | 175 | 300 | – | – | – | **Ateş ağacı** (Torchwood): geçen mermiler sarı parlar, 2 kat hasar, buzu eritir |
+| 13 | Dikiş Makinesi | 175 | 300 | 8 | **420** | tam | İlk dikişte düşmanı 3 sn yere sabitler |
 | 14 | Matkap | 300 | 320 | 34 | 1500 | tam | **Tüm şeridi deler** |
-| 15 | Mısır Patlatma | 325 | 360 | 30 | 2400 | tam | Patlama (0.11 u) |
+| 15 | Mısır Patlatma | 325 | 360 | 20 | 1450 | tam | **3 şeride** atar (Threepeater) |
+| 16-30 | Pirinç Pişirici, Stand Mikser, Hava Fritözü, Bulaşık Makinesi, Isıtıcı, Nemlendirici, Hava Temizleyici, Yavaş Pişirici, Konserve Açacağı, Mutfak Robotu, Tost Makinesi, El Mikseri, Meyve Sıkacağı, Giysi Buharlayıcı, Su Sebili | 75-200 | – | – | – | – | v0.14: sadece model + isim (özellik sonra) |
 
 Yavaşlatma: hızın **%50'si**, **2.5 sn** sürer.
 Mermi hızı: **0.62 u/sn**, çarpma toleransı **0.028 u**. (1 u = sahanın tüm genişliği)
@@ -66,7 +67,7 @@ sewing→thread, drill→drillbit, popcorn→popcorn`
 
 ---
 
-## Oyuncaklar (düşman) — 6 adet
+## Oyuncaklar (düşman) — 20 adet (6 oyuncak + 14 mobilya)
 
 | Ad | Can | Hız (u/sn) | Zırh | Isırık | Puan | Özellik |
 |---|---|---|---|---|---|---|
@@ -98,7 +99,7 @@ Isırık aralığı: **500 ms**.
 ### v0.10 — ilk sürüm
 - 6×10 perspektif saha, arka plandaki çizili karolarla birebir hizalı
 - 15 ev aleti, 6 oyuncak, 15 mermi, şimşek toplama
-- 9 kartlık ekip seçimi (15 içinden)
+- 9 kartlık ekip seçimi (30 içinden)
 - 15 dalga + sonsuz mod, 3 can, kürek, duraklat, erken dalga çağırma
 - Tek doku atlası, tam havuzlu nesne yönetimi, fizik motoru yok
 - WebAudio ile üretilen ses efektleri (0 KB)
@@ -110,3 +111,9 @@ Isırık aralığı: **500 ms**.
 - Şimşek temizliğinde null-check eklendi (Chrome crash düzeltmesi)
 - Düşmanlar sızdığında kapıya koşar; kapının sol duvarına değince kaybolur
 - Sağ alt köşeye oynanırken sürüm numarası eklendi
+
+### v0.14
+- 15 yeni ev aleti (Pirinç Pişirici … Su Sebili) ve 14 mobilya düşman (Buzdolabı … Şifonyer) atlasa eklendi; **Buzdolabı diğerlerinin 2 katı büyük**. Şimdilik sadece model + isim, özellikler sonra verilecek; mobilyalar dalgalara henüz girmiyor
+- Seçim ekranı 10×3 kart ile 30 aleti gösterir
+- Waffle → Starfruit (5 yöne yıldız), Vantilatör → sürekli geri iten (100), Blender → buz mermisi (175), Ütü bekleme 50 sn, Süpürge → Chomper, Çamaşır Makinesi → yakın kapak vuruşu, Fritöz → ateş ağacı, Dikiş Makinesi → sabitleme, Mısır Patlatma → 3 şerit
+- Vantilatör modelinin kırpık alt kısmı (direk + taban) tamamlandı; Çamaşır Makinesi karesindeki artık parça silindi

@@ -34,8 +34,10 @@ export class PreloadScene extends Phaser.Scene {
 
   create() {
     for (const t of TOYS) {
+      // Orijinal oyuncaklar 5 kare (_0.._4), yeni mobilya düşmanlar 2 kare (_0, _1)
+      const kareAdeti = t.kareler || 5;
       const kareler = [];
-      for (let i = 0; i < 5; i++) kareler.push({ key: K.atlas, frame: `${t.id}_${i}` });
+      for (let i = 0; i < kareAdeti; i++) kareler.push({ key: K.atlas, frame: `${t.id}_${i}` });
       this.anims.create({
         key: animYuru(t.id),
         frames: kareler,

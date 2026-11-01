@@ -5,9 +5,9 @@ import { APPLIANCES } from '../config/ApplianceData.js';
 import { Save } from '../core/Save.js';
 import { Ses } from '../core/Audio.js';
 
-const SUTUN = 5, SATIR = 3;
+const SUTUN = 10, SATIR = 3;
 
-/** SelectScene — 15 ev aletinden 9 tanesini seç. */
+/** SelectScene — 30 ev aletinden 9 tanesini seç. */
 export class SelectScene extends Phaser.Scene {
   constructor() { super(SCENE.select); }
 
@@ -25,7 +25,7 @@ export class SelectScene extends Phaser.Scene {
     const kayitli = Save.oku().secilenler || [];
 
     this.kartlar = [];
-    const kw = 150, kh = 128;
+    const kw = 122, kh = 128;
     const bx = W / 2 - (SUTUN * kw) / 2 + kw / 2;
     const by = 128;
 

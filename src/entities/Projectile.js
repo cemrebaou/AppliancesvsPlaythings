@@ -27,6 +27,8 @@ export class Projectile {
     this.iter = veri.iter || 0;
     this.ceker = veri.ceker || 0;
     this.patlama = veri.patlama || 0;
+    this.sabitle = veri.sabitle || 0;
+    this.guclu = false;
     this.sahipU = u;
     this.canli = true;
 
@@ -34,6 +36,8 @@ export class Projectile {
     s.setFrame(veri.mermi);
     s.setScale(olcek * (BULLET_SCALE[veri.mermi] || 0.6));
     s.setFlipX(false);
+    s.clearTint();
+    if (veri.mermiRenk) s.setTint(veri.mermiRenk);
     s.setActive(true).setVisible(true);
     return this;
   }

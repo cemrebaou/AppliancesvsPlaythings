@@ -57,6 +57,8 @@ export class FieldSystem {
     }
     this.olenler = [];     // ölüm animasyonu oynayan düşmanlar
     this.kacanlar = [];    // sızdıktan sonra kapıya koşan düşmanlar
+    this.yildizlar = [];   // Waffle'ın 5 yöne attığı yıldızlar (şeritten bağımsız)
+    this.yildizBos = [];   // havuz
     this.duraklat = false;
   }
 
@@ -110,6 +112,7 @@ export class FieldSystem {
     const a = this.seritler[row].cihazlar[col];
     if (!a) return null;
     this.seritler[row].cihazlar[col] = null;
+    this._yutucuSerbest(a);
     a.oldur();
     this.cihazHavuz.birak(a);
     return a.veri;
@@ -117,6 +120,7 @@ export class FieldSystem {
 
   _cihazYikil(a) {
     this.seritler[a.row].cihazlar[a.col] = null;
+    this._yutucuSerbest(a);
     a.oldur();
     this.cihazHavuz.birak(a);
   }
@@ -157,6 +161,7 @@ export class FieldSystem {
       this._silindirleriGuncelle(lane, r, dts);
     }
 
+    this._yildizlariGuncelle(dts);
     this._olenleriGuncelle(dt);
     this._kacanGuncelle(dt);
     this._simsekleriGuncelle(dt, dts);
@@ -181,6 +186,13 @@ export class FieldSystem {
           a.atesEttiGoster();
         }
       }
+
+      // --- özel roller
+      if (v.rol === 'ruzgar') { this._ruzgarGuncelle(a, lane, dt); continue; }
+      if (v.rol === 'yakin') { this._yakinGuncelle(a, lane, dt); continue; }
+      if (v.rol === 'yutucu') { this._yutucuGuncelle(a, lane, r, dt); continue; }
+      if (v.rol === 'yildiz') { this._yildizCihazGuncelle(a, r, dt); continue; }
+      if (v.rol === 'ates') continue;   // Fritöz: pasif, mermileri güçlendirir
 
       if (!v.mermi || v.hasar <= 0) continue;
 
@@ -300,6 +312,13 @@ export class FieldSystem {
         t.u = t.ziplaBasU - t.veri.ziplaU * o;
         t.yOfset = -Math.sin(o * Math.PI) * 52 * grid.olcek(r);
         if (t.ziplaKalan <= 0) { t.yOfset = 0; t.ziplaSayac = t.veri.ziplaMs; }
+      } else if (t.cekiliyor) {
+        t.yiyor = null;                     // Süpürge çekiyor, konumu o yönetir
+      } else if (t.sabitKalan > 0) {
+        t.sabitKalan -= dt;                 // Dikiş makinesi: yere sabit
+        t.yiyor = null;
+        if (t.sabitKalan <= 0) { t.sprite.anims.resume(); t.sprite.clearTint(); }
+        else if (!(t.tintKalan > 0)) t.sprite.setTint(0x66ffcc);
       } else {
         if (t.veri.zipla) {
           t.ziplaSayac -= dt;
@@ -446,6 +465,19 @@ export class FieldSystem {
       m.sprite.x = p.x;
       m.sprite.y = p.y - MERMI_Y_OFSET * grid.olcek(r);
 
+      // Fritöz (ateş ağacı): üstünden geçen mermi sarı parlar ve güçlenir
+      if (!m.guclu) {
+        const c = grid.uSutun(m.u);
+        const f = (c >= 0 && c < lane.cihazlar.length) ? lane.cihazlar[c] : null;
+        if (f && f.veri.rol === 'ates') {
+          m.guclu = true;
+          m.hasar *= f.veri.guc || 2;
+          m.yavaslat = false;               // ateş buzu eritir
+          m.sprite.setTint(0xffd23a);
+          f.atesEttiGoster();
+        }
+      }
+
       // çarpışma: sadece bu şeritteki düşmanlar
       for (let j = dusmanlar.length - 1; j >= 0; j--) {
         const d = dusmanlar[j];
@@ -455,6 +487,7 @@ export class FieldSystem {
 
         d.hasarAl(m.hasar);
         if (m.yavaslat) d.yavaslat();
+        if (m.sabitle) d.sabitle(m.sabitle);
         if (m.iter) d.it(m.iter);
         if (m.ceker) d.cek(m.ceker, m.sahipU + 0.05);
         if (m.patlama) this._alanHasari(lane, m.u, m.patlama, m.hasar * 0.5, d);
@@ -462,6 +495,203 @@ export class FieldSystem {
         if (m.delici) m.vurulanlar.add(d);
         m.kalanDelme--;
         if (m.kalanDelme <= 0) { this._mermiCikar(list, i); break; }
+      }
+    }
+  }
+
+  // --- Vantilatör: menzildeki oyuncakları sürekli geri üfler
+  _ruzgarGuncelle(a, lane, dt) {
+    const v = a.veri, dts = dt / 1000;
+    const list = lane.dusmanlar;
+    let var_ = false;
+    for (let j = 0; j < list.length; j++) {
+      const d = list[j];
+      if (d.u >= a.u - 0.01 && d.u <= a.u + v.menzilU) {
+        d.u = Math.min(1.12, d.u + v.itmeU * dts);
+        var_ = true;
+      }
+    }
+    a.ruzgarSayac -= dt;
+    if (var_ && a.ruzgarSayac <= 0) { a.ruzgarSayac = 240; a.atesEttiGoster(); }
+  }
+
+  // --- Çamaşır Makinesi: sadece yakına gelene kapağı açıp vurur
+  _yakinGuncelle(a, lane, dt) {
+    const v = a.veri;
+    a.atisSayac -= dt;
+    if (a.atisSayac > 0) return;
+    const list = lane.dusmanlar;
+    let vurdu = false;
+    for (let j = 0; j < list.length; j++) {
+      const d = list[j];
+      if (d.can <= 0 || d.cekiliyor) continue;
+      if (d.u >= a.u - 0.01 && d.u <= a.u + v.menzilU) { d.hasarAl(v.hasar); vurdu = true; }
+    }
+    if (vurdu) {
+      a.atisSayac = v.atisMs;
+      a.atesEttiGoster();
+      Ses.carpma();
+    }
+  }
+
+  // --- Elektrikli Süpürge (Chomper): 2 kare ilerideki düşmanı çeker, yutar, sindirir, atar
+  _yutucuGuncelle(a, lane, r, dt) {
+    const v = a.veri, dts = dt / 1000;
+    const id = v.id;
+
+    if (a.durum === 'cigniyor') {
+      a.sindirKalan -= dt;
+      if (a.sindirKalan <= 0) this._yutucuAt(a, r);
+      return;
+    }
+
+    if (a.durum === 'ceker') {
+      const d = a.hedef;
+      const list = lane.dusmanlar;
+      const k = d ? list.indexOf(d) : -1;
+      if (!d || !d.canli || d.can <= 0 || k < 0) {
+        if (d) d.cekiliyor = false;
+        a.hedef = null; a.durum = 'bekle';
+        a.sprite.setFrame(id + '_0');
+        return;
+      }
+      const hedefU = a.u + 0.04;
+      d.u = Math.max(hedefU, d.u - v.cekmeHizU * dts);
+      if (d.u <= hedefU + 0.001) {
+        // yuttu: düşman sahadan çıkar, içeride bekler; süpürge idle'a döner ve %10 büyür
+        const son = list.length - 1;
+        if (k !== son) list[k] = list[son];
+        list.pop();
+        d.sprite.setVisible(false);
+        a.icerik = d; a.hedef = null;
+        a.durum = 'cigniyor';
+        a.sindirKalan = v.sindirMs;
+        a.sprite.setFrame(id + '_0');
+        a.sprite.setScale(a.temelOlcek * 1.1);
+        Ses.carpma();
+      }
+      return;
+    }
+
+    // bekle: menzildeki en yakın oyuncağı seç
+    const list = lane.dusmanlar;
+    let en = null;
+    for (let j = 0; j < list.length; j++) {
+      const d = list[j];
+      if (d.can <= 0 || d.cekiliyor) continue;
+      if (d.u >= a.u - 0.01 && d.u <= a.u + v.menzilU && (!en || d.u < en.u)) en = d;
+    }
+    if (en) {
+      a.durum = 'ceker'; a.hedef = en;
+      en.cekiliyor = true; en.yiyor = null;
+      a.sprite.setFrame(id + '_1');      // çekerken saldırı karesinde durur
+      Ses.atis();
+    }
+  }
+
+  // sindirme bitti: oyuncağı dışarı atar (ölür)
+  _yutucuAt(a, r) {
+    const d = a.icerik;
+    a.icerik = null; a.durum = 'bekle';
+    a.sprite.setScale(a.temelOlcek);
+    if (!d) return;
+    const p = this.grid.seritNokta(r, a.u + 0.05);
+    d.sprite.setPosition(p.x, p.y).setVisible(true);
+    d.cekiliyor = false;
+    d.can = 0;
+    this._olumBasla(d);
+    this.olaylar.dusmanOldu(d);
+  }
+
+  // süpürge sökülür/yıkılırsa içindeki oyuncak sağ salim serbest kalır
+  _yutucuSerbest(a) {
+    if (a.hedef) { a.hedef.cekiliyor = false; a.hedef = null; }
+    const d = a.icerik;
+    if (!d) return;
+    a.icerik = null; a.durum = 'bekle';
+    d.cekiliyor = false;
+    d.u = Math.min(1.1, a.u + 0.03);
+    d.sprite.setVisible(true);
+    this.seritler[a.row].dusmanlar.push(d);
+  }
+
+  // --- Waffle (Starfruit): 5 yöne yıldız
+  _yildizCihazGuncelle(a, r, dt) {
+    const v = a.veri;
+    a.atisSayac -= dt;
+    if (a.atisSayac > 0) return;
+    if (!this._sahadaDusmanVar()) return;
+    a.atisSayac = v.atisMs;
+    a.atesEttiGoster();
+    Ses.atis();
+    const H = BALANCE.mermiHizU;
+    // [u yönü, şerit yönü]
+    const yonler = [[1, 0], [-1, 0], [0.6, -1], [0.6, 1], [-0.6, -1]];
+    for (let i = 0; i < yonler.length; i++) {
+      this._yildizAt(a.u, r, yonler[i][0] * H, yonler[i][1] * 2.4, v.hasar);
+    }
+  }
+
+  _sahadaDusmanVar() {
+    for (let r = 0; r < this.seritler.length; r++) if (this.seritler[r].dusmanlar.length) return true;
+    return false;
+  }
+
+  _yildizAt(u, row, du, dr, hasar) {
+    let y = this.yildizBos.pop();
+    if (!y) {
+      const spr = this.scene.add.star(0, 0, 5, 6, 13, 0xffd54a)
+        .setStrokeStyle(2, 0x7a4a00).setDepth(DEPTH.projectile);
+      y = { spr };
+    }
+    y.u = u + 0.01; y.row = row; y.du = du; y.dr = dr; y.hasar = hasar; y.omur = 2.6;
+    y.spr.setActive(true).setVisible(true).setRotation(0);
+    this.yildizlar.push(y);
+  }
+
+  _yildizlariGuncelle(dts) {
+    const arr = this.yildizlar;
+    const grid = this.grid, rows = this.seritler.length;
+    for (let i = arr.length - 1; i >= 0; i--) {
+      const y = arr[i];
+      y.u += y.du * dts;
+      y.row += y.dr * dts;
+      y.omur -= dts;
+
+      let bitti = y.omur <= 0 || y.u < -0.03 || y.u > 1.14 || y.row < -0.45 || y.row > rows - 0.55;
+
+      if (!bitti) {
+        const rf = Math.min(rows - 1, Math.max(0, y.row));
+        const r0 = Math.floor(rf), r1 = Math.min(rows - 1, r0 + 1), f = rf - r0;
+        const uu = Math.min(1.14, Math.max(0, y.u));
+        const p0 = grid.seritNokta(r0, uu), p1 = grid.seritNokta(r1, uu);
+        const o = grid.olcek(r0) + (grid.olcek(r1) - grid.olcek(r0)) * f;
+        y.spr.setPosition(p0.x + (p1.x - p0.x) * f, p0.y + (p1.y - p0.y) * f - MERMI_Y_OFSET * o);
+        y.spr.setScale(o * 0.9);
+        y.spr.rotation += dts * 9;
+
+        // çarpışma: en yakın şeritteki düşmanlar
+        const lr = Math.round(y.row);
+        if (lr >= 0 && lr < rows) {
+          const list = this.seritler[lr].dusmanlar;
+          for (let j = 0; j < list.length; j++) {
+            const d = list[j];
+            if (d.can <= 0 || d.cekiliyor) continue;
+            if (Math.abs(d.u - y.u) <= BALANCE.mermiCarpmaU * 1.4) {
+              d.hasarAl(y.hasar);
+              bitti = true;
+              break;
+            }
+          }
+        }
+      }
+
+      if (bitti) {
+        y.spr.setActive(false).setVisible(false);
+        const son = arr.length - 1;
+        if (i !== son) arr[i] = arr[son];
+        arr.pop();
+        this.yildizBos.push(y);
       }
     }
   }
@@ -530,6 +760,7 @@ export class FieldSystem {
       lane.mermiler.length = 0;
       for (let c = 0; c < lane.cihazlar.length; c++) {
         const a = lane.cihazlar[c];
+        if (a && a.icerik) { a.icerik.oldur(); this.dusmanHavuz.birak(a.icerik); a.icerik = null; }
         if (a) { a.oldur(); this.cihazHavuz.birak(a); lane.cihazlar[c] = null; }
       }
       // Silindirler
@@ -547,6 +778,9 @@ export class FieldSystem {
       const t = this.kacanlar[i]; t.oldur(); this.dusmanHavuz.birak(t);
     }
     this.kacanlar.length = 0;
+    for (let i = this.yildizlar.length - 1; i >= 0; i--) this.yildizlar[i].spr.destroy();
+    for (let i = this.yildizBos.length - 1; i >= 0; i--) this.yildizBos[i].spr.destroy();
+    this.yildizlar.length = 0; this.yildizBos.length = 0;
     this.simsekHavuz.hepsiniBirak(s => s.oldur());
   }
 }

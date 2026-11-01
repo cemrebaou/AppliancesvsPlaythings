@@ -3,7 +3,7 @@
  * Oyunun tüm global sabitleri. Denge ayarı yapmak isteyen sadece bu dosyaya bakar.
  */
 
-export const SURUM = 'v0.13';
+export const SURUM = 'v0.14';
 
 /** Tasarım çözünürlüğü (Scale.FIT ile her ekrana oturur). */
 export const DESIGN = { width: 1280, height: 720 };

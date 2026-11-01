@@ -24,12 +24,18 @@ export class Appliance {
     this.atisSayac = veri.atisMs * 0.4;
     this.uretimSayac = veri.uretimMs || 0;
     this.atisKare = 0;
+    this.durum = 'bekle';     // yutucu: bekle | ceker | cigniyor
+    this.hedef = null;
+    this.icerik = null;
+    this.sindirKalan = 0;
+    this.ruzgarSayac = 0;
     this.canli = true;
 
     const s = this.sprite;
     s.setFrame(veri.id + '_0');
     s.setPosition(x, y);
-    s.setScale(olcek * (veri.olcek || 1));
+    this.temelOlcek = olcek * (veri.olcek || 1);
+    s.setScale(this.temelOlcek);
     s.setDepth(DEPTH.field + y);
     s.clearTint();
     s.setAlpha(1);

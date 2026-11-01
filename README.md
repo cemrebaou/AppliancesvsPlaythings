@@ -3,7 +3,7 @@
 Öfkeli ev aletleri, karanlık oyuncaklara karşı. Phaser 4 ile yazılmış, mobil
 (dokunmatik) için tasarlanmış bir kule savunma oyunu.
 
-**Sürüm:** `v0.13` · **Geliştiren:** Cemre Başoğlu
+**Sürüm:** `v0.14` · **Geliştiren:** Cemre Başoğlu
 
 ---
 

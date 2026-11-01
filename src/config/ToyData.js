@@ -42,6 +42,78 @@ export const TOYS = [
     id: 'train', ad: 'Hayalet Tren', can: 1100, hizU: 0.022, zirh: 0.2,
     isirik: 70, fps: 7, olcek: 1.15, puan: 80, boss: true,
     aciklama: 'PATRON. Çok dayanıklı, cihazları hızla parçalar.'
+  },
+
+  /* ── Mobilya & Ev Eşyası Düşmanlar (v0.14) ─ özellikler sonra verilecek ── */
+  {
+    id: 'refrigerator', ad: 'Buzdolabı', can: 500, hizU: 0.025, zirh: 0.1,
+    isirik: 40, fps: 6, olcek: 1.0, kareler: 2, puan: 40,
+    aciklama: 'İri ve ağır. Diğer düşmanların 2 katı büyüklüğünde.'
+  },
+  {
+    id: 'minifridge', ad: 'Mini Buzdolabı', can: 200, hizU: 0.040, zirh: 0,
+    isirik: 25, fps: 8, olcek: 1.0, kareler: 2, puan: 15,
+    aciklama: 'Küçük ama hızlı.'
+  },
+  {
+    id: 'washingmachine', ad: 'Çamaşır Makinesi (Düşman)', can: 320, hizU: 0.030, zirh: 0.15,
+    isirik: 32, fps: 8, olcek: 1.0, kareler: 2, puan: 25,
+    aciklama: 'Döne döne saldırır.'
+  },
+  {
+    id: 'table', ad: 'Masa', can: 180, hizU: 0.045, zirh: 0,
+    isirik: 20, fps: 9, olcek: 1.0, kareler: 2, puan: 12,
+    aciklama: 'Sıradan bir masa.'
+  },
+  {
+    id: 'chair', ad: 'Sandalye', can: 140, hizU: 0.055, zirh: 0,
+    isirik: 18, fps: 10, olcek: 1.0, kareler: 2, puan: 10,
+    aciklama: 'Hafif ve hızlı.'
+  },
+  {
+    id: 'desklamp', ad: 'Masa Lambası', can: 120, hizU: 0.060, zirh: 0,
+    isirik: 15, fps: 10, olcek: 1.0, kareler: 2, puan: 8,
+    aciklama: 'Küçük ama sinir bozucu.'
+  },
+  {
+    id: 'floorlamp', ad: 'Zemin Lambası', can: 160, hizU: 0.048, zirh: 0,
+    isirik: 18, fps: 9, olcek: 1.0, kareler: 2, puan: 12,
+    aciklama: 'Uzun boylu, tuhaf adımlar.'
+  },
+  {
+    id: 'armchair', ad: 'Koltuk', can: 280, hizU: 0.028, zirh: 0.05,
+    isirik: 28, fps: 7, olcek: 1.0, kareler: 2, puan: 20,
+    aciklama: 'Şişman ve yavaş.'
+  },
+  {
+    id: 'television', ad: 'Televizyon', can: 220, hizU: 0.038, zirh: 0.08,
+    isirik: 24, fps: 8, olcek: 1.0, kareler: 2, puan: 18,
+    aciklama: 'Ekranından ışın yayar.'
+  },
+  {
+    id: 'bookshelf', ad: 'Kitaplık', can: 350, hizU: 0.025, zirh: 0.1,
+    isirik: 30, fps: 7, olcek: 1.0, kareler: 2, puan: 25,
+    aciklama: 'Kitapları fırlatır.'
+  },
+  {
+    id: 'nightstand', ad: 'Komodin', can: 150, hizU: 0.050, zirh: 0,
+    isirik: 18, fps: 9, olcek: 1.0, kareler: 2, puan: 12,
+    aciklama: 'Çekmecelerini fırlatır.'
+  },
+  {
+    id: 'trashcan', ad: 'Çöp Kutusu', can: 130, hizU: 0.055, zirh: 0,
+    isirik: 15, fps: 10, olcek: 1.0, kareler: 2, puan: 10,
+    aciklama: 'Çöp saçar.'
+  },
+  {
+    id: 'coatrack', ad: 'Portmanto', can: 100, hizU: 0.065, zirh: 0,
+    isirik: 12, fps: 11, olcek: 1.0, kareler: 2, puan: 8,
+    aciklama: 'İnce ama çevik.'
+  },
+  {
+    id: 'dresser', ad: 'Şifonyer', can: 300, hizU: 0.030, zirh: 0.08,
+    isirik: 28, fps: 7, olcek: 1.0, kareler: 2, puan: 22,
+    aciklama: 'Çekmecelerini silah olarak kullanır.'
   }
 ];
 
