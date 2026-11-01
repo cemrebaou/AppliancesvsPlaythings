@@ -1,6 +1,6 @@
 # OYUN.md — Appliances vs Playthings denge notları
 
-Sürüm: **v0.19**  — tüm değerler Plants vs Zombies karşılıklarına göre
+Sürüm: **v0.20**  — tüm değerler Plants vs Zombies karşılıklarına göre
 Bu dosya oyunun tüm sayılarını tutar. Kod tarafında karşılığı `src/config/` klasörüdür.
 
 ---
@@ -180,3 +180,7 @@ Isırık aralığı: **500 ms** (50 hasar = PvZ'deki saniyede 100). Normal hız 
 
 ### v0.19
 - Aletler, düşmanlar, mermiler ve silindir hep birlikte yukarı kaydırıldı: ön sırada 20 px, arka sıraya doğru perspektifle azalarak (~11 px). Ayar: `GRID.yukari`
+
+### v0.20
+- Oyun ekranında sağ en altta her zaman TAM EKRAN tuşu (tekrar basınca çıkar); sürüm yazısı hemen solunda
+- Waffle Makinesi 5 yöne yine Starfruit gibi atar ama yıldız değil waffle mermisi atar

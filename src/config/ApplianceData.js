@@ -83,7 +83,7 @@ export const APPLIANCES = [
   {
     id: 'waffle', ad: 'Waffle Makinesi', pvz: 'Yıldız Meyvesi', fiyat: 125, can: 300, bekleme: 7500,
     rol: 'yildiz', hasar: 20, atisMs: 1425, olcek: 1.05,
-    aciklama: '5 yöne birden yıldız atar (sağ, sol, çaprazlar, yukarı).'
+    aciklama: '5 yöne birden waffle atar (sağ, sol, çaprazlar, yukarı).'
   },
   {
     id: 'handmixer', ad: 'El Mikseri', pvz: 'Bölünmüş Bezelye', fiyat: 125, can: 300, bekleme: 7500,
