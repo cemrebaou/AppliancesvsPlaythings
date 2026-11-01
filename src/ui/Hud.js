@@ -5,6 +5,7 @@
  */
 import { DESIGN, ENERGY_UI, DEPTH, COLORS, SURUM } from '../config/GameConfig.js';
 import { Ses } from '../core/Audio.js';
+import { tamEkranYap } from '../scenes/MenuScene.js';
 
 const YAZI = (boy, renk = '#ffffff') => ({
   fontFamily: 'Verdana, Arial, sans-serif',
@@ -34,8 +35,31 @@ export class Hud {
     this.bilgiYazi = scene.add.text(DESIGN.width / 2, 132, '', YAZI(22, '#ffe9a8'))
       .setOrigin(0.5).setDepth(DEPTH.ui + 3).setScrollFactor(0).setAlpha(0);
 
-    // Sürüm: sağ alt köşe
-    scene.add.text(DESIGN.width - 8, DESIGN.height - 6, SURUM, YAZI(12, '#a08060'))
+    // Tam ekran tuşu: sağ en alt köşe (oyun boyunca hep orada)
+    const TW = 118, TH = 34, TX = DESIGN.width - 6 - TW / 2, TY = DESIGN.height - 6 - TH / 2;
+    const tg = scene.add.graphics().setDepth(DEPTH.ui + 2).setScrollFactor(0);
+    tg.fillStyle(0x4a2f1a, 0.92).fillRoundedRect(TX - TW / 2, TY - TH / 2, TW, TH, 9);
+    tg.lineStyle(2, 0xffd54a, 1).strokeRoundedRect(TX - TW / 2, TY - TH / 2, TW, TH, 9);
+    const tYazi = scene.add.text(TX, TY, '', YAZI(14))
+      .setOrigin(0.5).setDepth(DEPTH.ui + 3).setScrollFactor(0);
+    const tGuncelle = () => tYazi.setText(scene.scale.isFullscreen ? 'TAM EKRAN ✕' : 'TAM EKRAN');
+    tGuncelle();
+    scene.add.rectangle(TX, TY, TW + 10, TH + 10, 0xffffff, 0.001)
+      .setDepth(DEPTH.ui + 4).setScrollFactor(0).setInteractive({ useHandCursor: true })
+      .on('pointerdown', () => {
+        Ses.tik();
+        if (scene.scale.isFullscreen) scene.scale.stopFullscreen();
+        else tamEkranYap(scene);
+      });
+    scene.scale.on('enterfullscreen', tGuncelle);
+    scene.scale.on('leavefullscreen', tGuncelle);
+    scene.events.once('shutdown', () => {
+      scene.scale.off('enterfullscreen', tGuncelle);
+      scene.scale.off('leavefullscreen', tGuncelle);
+    });
+
+    // Sürüm: tam ekran tuşunun hemen solunda, aynı hizada
+    scene.add.text(TX - TW / 2 - 8, DESIGN.height - 12, SURUM, YAZI(12, '#a08060'))
       .setOrigin(1, 1).setDepth(DEPTH.ui + 3).setScrollFactor(0).setAlpha(0.7);
 
     const BY = 168;

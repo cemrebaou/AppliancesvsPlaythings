@@ -726,8 +726,8 @@ export class FieldSystem {
   _yildizAt(u, row, du, dr, hasar) {
     let y = this.yildizBos.pop();
     if (!y) {
-      const spr = this.scene.add.star(0, 0, 5, 6, 13, 0xffd54a)
-        .setStrokeStyle(2, 0x7a4a00).setDepth(DEPTH.projectile);
+      // Waffle mermisi (5 yöne atılır)
+      const spr = this.scene.add.image(0, 0, K.atlas, 'waffle').setDepth(DEPTH.projectile);
       y = { spr };
     }
     y.u = u + 0.01; y.row = row; y.du = du; y.dr = dr; y.hasar = hasar; y.omur = 2.6;
@@ -753,7 +753,7 @@ export class FieldSystem {
         const p0 = grid.seritNokta(r0, uu), p1 = grid.seritNokta(r1, uu);
         const o = grid.olcek(r0) + (grid.olcek(r1) - grid.olcek(r0)) * f;
         y.spr.setPosition(p0.x + (p1.x - p0.x) * f, p0.y + (p1.y - p0.y) * f - MERMI_Y_OFSET * o);
-        y.spr.setScale(o * 0.9);
+        y.spr.setScale(o * (BULLET_SCALE.waffle || 0.56));
         y.spr.rotation += dts * 9;
 
         // çarpışma: en yakın şeritteki düşmanlar
