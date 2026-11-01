@@ -1,6 +1,6 @@
 # OYUN.md — Appliances vs Playthings denge notları
 
-Sürüm: **v0.18**  — tüm değerler Plants vs Zombies karşılıklarına göre
+Sürüm: **v0.19**  — tüm değerler Plants vs Zombies karşılıklarına göre
 Bu dosya oyunun tüm sayılarını tutar. Kod tarafında karşılığı `src/config/` klasörüdür.
 
 ---
@@ -177,3 +177,6 @@ Isırık aralığı: **500 ms** (50 hasar = PvZ'deki saniyede 100). Normal hız 
 ### v0.18
 - Arka plandaki 60 karo tek tek ölçüldü (çizim tam perspektif değil, arka sıralarda kayma vardı). Aletler artık ölçülmüş karonun tam ortasına oturuyor (genişliğin %85'i, boyun %95'i)
 - Dokunma ve yeşil/kırmızı karo vurgusu da ölçülmüş karolara göre
+
+### v0.19
+- Aletler, düşmanlar, mermiler ve silindir hep birlikte yukarı kaydırıldı: ön sırada 20 px, arka sıraya doğru perspektifle azalarak (~11 px). Ayar: `GRID.yukari`

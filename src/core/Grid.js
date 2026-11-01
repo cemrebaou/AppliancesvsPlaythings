@@ -67,6 +67,7 @@ export class Grid {
     this.satirOlcek = new Float32Array(this.rows);  // perspektif boy çarpanı
     this.hucreX = new Float32Array(this.rows * this.cols);
     this.hucreY = new Float32Array(this.rows * this.cols);
+    this.kaydir = new Float32Array(this.rows);       // satır başına yukarı kaydırma (px)
 
     // Ölçülmüş karolar: sütun merkez çizgisinin eğimi (dx/dy), ilk ve son satırdan
     this.karoTablo = GRID.karolar;
@@ -78,10 +79,11 @@ export class Grid {
     for (let r = 0; r < this.rows; r++) {
       this.satirV[r] = (r + GRID.footV) / this.rows;
       this.satirOlcek[r] = this._satirYuksekligi(r) / refH;
+      this.kaydir[r] = (GRID.yukari || 0) * this.satirOlcek[r];
       for (let c = 0; c < this.cols; c++) {
         const kr = this.karo(r, c);
         const k = r * this.cols + c;
-        this.hucreX[k] = kr.cx; this.hucreY[k] = kr.cy + kr.h * 0.2;
+        this.hucreX[k] = kr.cx; this.hucreY[k] = kr.cy + kr.h * 0.2 - this.kaydir[r];
       }
     }
   }
@@ -144,7 +146,9 @@ export class Grid {
 
   /** şerit içinde u konumundan ekran noktası (düşman ve mermi için) */
   seritNokta(row, u) {
-    return this.nokta(u, this.satirV[row]);
+    const p = this.nokta(u, this.satirV[row]);
+    p.y -= this.kaydir[row];
+    return p;
   }
 
   /** sütun merkezinin u değeri */

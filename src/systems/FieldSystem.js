@@ -119,11 +119,11 @@ export class FieldSystem {
     if (veri.uzun) {
       // Büyük Buzdolabı: tabanı karoda, boyu 1.5 karo
       const o = Math.min(k.w * 0.85 / fw, k.h * 1.5 / fh);
-      return { x: k.cx, y: k.alt - k.h * 0.06, olcek: o };
+      return { x: k.cx, y: k.alt - k.h * 0.06 - this.grid.kaydir[row], olcek: o };
     }
     // Karonun tam ortasına: genişliğin %85'i, boyun %95'i içinde, dikeyde ortalı
     const olcek = Math.min(k.w * 0.85 / fw, k.h * 0.95 / fh);
-    return { x: k.cx, y: k.cy + (fh * olcek) / 2, olcek };
+    return { x: k.cx, y: k.cy + (fh * olcek) / 2 - this.grid.kaydir[row], olcek };
   }
 
   // Silindir başlatır: şeridin en gerisinden (u=0) sağa doğru ilerler

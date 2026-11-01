@@ -3,7 +3,7 @@
  * Oyunun tüm global sabitleri. Denge ayarı yapmak isteyen sadece bu dosyaya bakar.
  */
 
-export const SURUM = 'v0.18';
+export const SURUM = 'v0.19';
 
 /** Tasarım çözünürlüğü (Scale.FIT ile her ekrana oturur). */
 export const DESIGN = { width: 1280, height: 720 };
@@ -27,6 +27,8 @@ export const GRID = {
    * Hem cihazlar hem düşmanlar bu çizgiye basar; 0.70 karoda görsel olarak ortalar.
    */
   footV: 0.70,
+  /** Aletler, düşmanlar ve mermiler bu kadar yukarı kaydırılır (ön sırada px; arkaya doğru perspektifle azalır) */
+  yukari: 20,
   /**
    * Arka plandaki karoların ÖLÇÜLMÜŞ yerleri (v0.18). Çizim tam perspektif olmadığı için
    * aletler homografi yerine bu tabloya oturur. Her satır:
